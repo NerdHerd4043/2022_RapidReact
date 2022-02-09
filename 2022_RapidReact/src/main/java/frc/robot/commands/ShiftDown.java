@@ -4,23 +4,29 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Drivebase;
-import frc.robot.Constants.DriveConstants;
 
-public class ShiftUp extends InstantCommand {
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.Drivebase;
+
+public class ShiftDown extends InstantCommand {
   Drivebase drivebase;
-  /** Creates a new ShiftUp. */
-  public ShiftUp(Drivebase drivebase) {
+  /** Creates a new ShiftDown. */
+  public ShiftDown(Drivebase drivebase) {
     // Use addRequirements() here to declare subsystem dependencies.
   this.drivebase = drivebase;
 
   addRequirements(this.drivebase);
-}
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    drivebase.shift(DriveConstants.Gears.highGear);
   }
-  // Called every time the scheduler runs while the command is scheduled.
+
+  // Called when the command is initially scheduled.
+
+
+
+
+
+@Override
+public void initialize(){
+  drivebase.shift(DriveConstants.Gears.lowGear);
+}
 }
