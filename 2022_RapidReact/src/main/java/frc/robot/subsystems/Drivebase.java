@@ -51,11 +51,12 @@ public class Drivebase extends SubsystemBase {
     // frontLeftMotor.set(fwd);
   }
 
+  public void shift(boolean a) {
+    shifter.set(a);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-public void shift(boolean a) {
-  shifter.set(a);
-}
 }

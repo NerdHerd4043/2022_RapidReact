@@ -29,12 +29,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivebase.setDefaultCommand(
-    
-    new Drive(
-      drivebase,
-      ()  -> driveStick.getLeftY(),
-      ()  -> driveStick.getRightX()));
+    drivebase.setDefaultCommand( 
+      new Drive(
+        drivebase,
+        () -> driveStick.getLeftY(),
+        () -> driveStick.getRightX()));
   }
 
   /**
