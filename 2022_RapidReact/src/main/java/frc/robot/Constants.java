@@ -29,5 +29,8 @@ public final class Constants {
     public static final class RobotConstants {
         public static final int PCMD = 1;
     }
+    public static final class ElevatorConstants {
+        public static final int beltMotorID = 0;
+    }
     }
 }
