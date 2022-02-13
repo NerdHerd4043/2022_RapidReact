@@ -17,6 +17,10 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     beltMotor.setSafetyEnabled(false);
   }
+  public void moveBelt (double speed){
+    beltMotor.set(speed);
+  }
+
 
   
 
