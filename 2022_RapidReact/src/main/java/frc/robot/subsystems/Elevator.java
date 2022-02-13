@@ -17,12 +17,14 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     beltMotor.setSafetyEnabled(false);
   }
-  public void moveBelt (double speed){
+
+  public void moveBelt(double speed){
     beltMotor.set(speed);
   }
 
-
-  
+  public void stopBelt() {
+    beltMotor.stopMotor();
+  }
 
   @Override
   public void periodic() {
