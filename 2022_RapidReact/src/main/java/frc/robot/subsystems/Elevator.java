@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
-  private WPI_TalonSRX beltMotor = new WPI_TalonSRX(ElevatorConstants.beltMotorID);
+private WPI_TalonSRX beltMotor = new WPI_TalonSRX(ElevatorConstants.beltMotorID);
 
 
   /** Creates a new Elevator. */
