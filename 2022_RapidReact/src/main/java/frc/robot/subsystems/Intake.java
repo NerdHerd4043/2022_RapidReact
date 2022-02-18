@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants.IntakeConstants;
 
@@ -16,6 +18,7 @@ public class Intake extends SubsystemBase
   private CANSparkMax harvesterMotor = new CANSparkMax(IntakeConstants.harvesterMotorID, MotorType.kBrushless);
   private WPI_TalonSRX kickupMotor = new WPI_TalonSRX(IntakeConstants.kickupMotorID);
 
+  private Solenoid intakePiston = new Solenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakePistonID);
   /** Creates a new Intake. */
   public Intake() 
   {
@@ -32,6 +35,14 @@ public class Intake extends SubsystemBase
   {
     harvesterMotor.stopMotor();
     kickupMotor.stopMotor();
+  }
+
+  public void setIntakePiston(boolean z){
+   intakePiston.set(z);
+  }
+
+  public boolean isDown() {
+    return intakePiston.get();
   }
 
   @Override
