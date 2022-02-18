@@ -8,13 +8,13 @@ import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DefaultIntake extends CommandBase {
+public class Harvest extends CommandBase {
   public final Intake intake;
   public final double hSpeed;
   public final double kSpeed;
 
   /** Creates a new DefaultIntake. */
-  public DefaultIntake(Intake intake, double hSpeed, double kSpeed)
+  public Harvest(Intake intake, double hSpeed, double kSpeed)
   {
     this.intake = intake;
     this.hSpeed = hSpeed;
@@ -32,7 +32,9 @@ public class DefaultIntake extends CommandBase {
   @Override
   public void execute() 
   {
-    intake.spinIntake(hSpeed, kSpeed);
+    if(intake.isDown()) {
+      intake.spinIntake(hSpeed, kSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
