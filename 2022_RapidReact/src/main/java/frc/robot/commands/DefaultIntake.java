@@ -32,7 +32,9 @@ public class DefaultIntake extends CommandBase {
   @Override
   public void execute() 
   {
-    intake.spinIntake(hSpeed, kSpeed);
+    if (intake.isDown()) {
+      intake.spinIntake(hSpeed, kSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -49,4 +51,7 @@ public class DefaultIntake extends CommandBase {
   }
 }
 
-//hi
+
+
+
+//hello there

@@ -34,6 +34,11 @@ public class Intake extends SubsystemBase
     kickupMotor.stopMotor();
   }
 
+  public boolean isDown()
+  {
+    return true;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
