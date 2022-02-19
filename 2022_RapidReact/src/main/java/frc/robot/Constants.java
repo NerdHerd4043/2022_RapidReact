@@ -36,6 +36,7 @@ public final class Constants {
     {
         public static final int harvesterMotorID = 7;
         public static final int kickupMotorID = 8;
+        public static final int intakePistonID = 9;
     }
     }
 }
