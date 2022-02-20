@@ -38,5 +38,12 @@ public final class Constants {
         public static final int kickupMotorID = 8;
         public static final int intakePistonID = 9;
     }
+    public static final class EjectorConstants
+    {
+        public static final int ejectorMotorRID = 10;
+        public static final int ejectorMotorLID = 11;
+        public static final double speed = -0.5;
+
+    }
     }
 }
