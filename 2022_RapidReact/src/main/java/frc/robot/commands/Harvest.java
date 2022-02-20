@@ -21,7 +21,7 @@ public class Harvest extends CommandBase {
     this.kSpeed = kSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
+    addRequirements(this.intake);
   }
 
   // Called when the command is initially scheduled.

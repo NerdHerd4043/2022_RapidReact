@@ -22,7 +22,7 @@ public class Drive extends CommandBase {
     rotation = rot;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivebase);
+    addRequirements(this.drivebase);
   }
 
   // Called when the command is initially scheduled.
