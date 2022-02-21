@@ -24,7 +24,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final Auto auto = new Auto(drivebase/*m_exampleSubsystem*/);
 
   private static XboxController driveStick = new XboxController(0);
 
@@ -63,8 +63,7 @@ public class RobotContainer {
   {
     new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
-
-    new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(), true);
+    new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(intake), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, 1), true);
 
   }
@@ -74,8 +73,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
-  // }
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous    
+    return auto;
+  }
 }

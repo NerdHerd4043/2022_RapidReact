@@ -26,10 +26,6 @@ private WPI_TalonSRX beltMotor = new WPI_TalonSRX(ElevatorConstants.beltMotorID)
     beltMotor.stopMotor();
   }
 
-  public boolean elevatorUp()
-  {
-    return beltMotor.get() > 0;
-  }
 
   @Override
   public void periodic() {
