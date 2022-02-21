@@ -4,22 +4,24 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
+import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Elevator;
 
-public class DefaultElevator extends CommandBase {
-  public final Elevator elevator;
-  public final DoubleSupplier speed;
+public class Harvest extends CommandBase {
+  public final Intake intake;
+  public final double hSpeed;
+  public final double kSpeed;
 
-  /** Creates a new DefaultElevator. */
-  public DefaultElevator(Elevator elevator, DoubleSupplier speed) {
-    this.elevator = elevator;
-    this.speed = speed;
+  /** Creates a new DefaultIntake. */
+  public Harvest(Intake intake, double hSpeed, double kSpeed)
+  {
+    this.intake = intake;
+    this.hSpeed = hSpeed;
+    this.kSpeed = kSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.elevator);
+    addRequirements(this.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -28,14 +30,18 @@ public class DefaultElevator extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    elevator.moveBelt(speed.getAsDouble());
+  public void execute() 
+  {
+    if(intake.isDown()) {
+      intake.spinIntake(hSpeed, kSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    elevator.stopBelt();
+  public void end(boolean interrupted) 
+  {
+    intake.stopIntake();
   }
 
   // Returns true when the command should end.
@@ -44,3 +50,5 @@ public class DefaultElevator extends CommandBase {
     return false;
   }
 }
+
+//hi

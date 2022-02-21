@@ -4,22 +4,20 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Elevator;
 
-public class DefaultElevator extends CommandBase {
-  public final Elevator elevator;
-  public final DoubleSupplier speed;
+import frc.robot.subsystems.Drivebase;
 
-  /** Creates a new DefaultElevator. */
-  public DefaultElevator(Elevator elevator, DoubleSupplier speed) {
-    this.elevator = elevator;
-    this.speed = speed;
+public class Auto extends CommandBase {
+
+  private final Drivebase drivebase;
+
+  /** Creates a new Auto. */
+  public Auto(Drivebase drivebase) {
+    this.drivebase = drivebase;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.elevator);
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
@@ -28,15 +26,15 @@ public class DefaultElevator extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    elevator.moveBelt(speed.getAsDouble());
+  public void execute() 
+  {
+    drivebase.arcadeDrive(.3, 0);
+    // wait(2000, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    elevator.stopBelt();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
