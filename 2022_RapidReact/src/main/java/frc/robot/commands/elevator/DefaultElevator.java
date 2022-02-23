@@ -2,26 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
-import frc.robot.subsystems.Intake;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Elevator;
 
-public class Harvest extends CommandBase {
-  public final Intake intake;
-  public final double hSpeed;
-  public final double kSpeed;
+public class DefaultElevator extends CommandBase {
+  public final Elevator elevator;
+  public final DoubleSupplier speed;
 
-  /** Creates a new DefaultIntake. */
-  public Harvest(Intake intake, double hSpeed, double kSpeed)
-  {
-    this.intake = intake;
-    this.hSpeed = hSpeed;
-    this.kSpeed = kSpeed;
+  /** Creates a new DefaultElevator. */
+  public DefaultElevator(Elevator elevator, DoubleSupplier speed) {
+    this.elevator = elevator;
+    this.speed = speed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.intake);
+    addRequirements(this.elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -30,18 +28,14 @@ public class Harvest extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  {
-    if(intake.isDown()) {
-      intake.spinIntake(hSpeed, kSpeed);
-    }
+  public void execute() {
+    elevator.moveBelt(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
-    intake.stopIntake();
+  public void end(boolean interrupted) {
+    elevator.stopBelt();
   }
 
   // Returns true when the command should end.
@@ -50,5 +44,3 @@ public class Harvest extends CommandBase {
     return false;
   }
 }
-
-//hi

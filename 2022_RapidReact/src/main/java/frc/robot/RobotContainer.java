@@ -4,10 +4,19 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.intake.*;
+import frc.robot.commands.ejector.*;
+import frc.robot.commands.elevator.*;
+import frc.robot.commands.drivebase.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,7 +33,14 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
-  private final Auto auto = new Auto(drivebase/*m_exampleSubsystem*/);
+
+  private final DriveForward autoForward = new DriveForward(drivebase);
+  private final WaitThenForward auto = new WaitThenForward(drivebase);
+  SendableChooser<Command> commandChooser = new SendableChooser<>();
+
+
+  private UsbCamera usbCamera = new UsbCamera("Intake Camera", 0);
+  private MjpegServer mjpegServer = new MjpegServer("serv_Intake Camera", 1181);
 
   private static XboxController driveStick = new XboxController(0);
 
@@ -32,6 +48,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    mjpegServer.setSource(usbCamera);
+
+    commandChooser.setDefaultOption("WaitThenAuto", auto);
+    commandChooser.addOption("NoWaitForwardPLS", autoForward);
+
+    SmartDashboard.putData(commandChooser);
 
     drivebase.setDefaultCommand( 
       new Drive(
@@ -64,7 +87,7 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, 1), true);
+    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, 1, elevator), true);
 
   }
 
@@ -75,6 +98,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous    
-    return auto;
+    return commandChooser.getSelected();
   }
 }

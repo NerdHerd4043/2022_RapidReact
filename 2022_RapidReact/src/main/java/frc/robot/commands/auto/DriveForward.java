@@ -2,18 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Drivebase;
 
-public class Auto extends CommandBase {
+public class DriveForward extends CommandBase {
 
   private final Drivebase drivebase;
+  private double encoderStart;
+
 
   /** Creates a new Auto. */
-  public Auto(Drivebase drivebase) {
+  public DriveForward(Drivebase drivebase) {
     this.drivebase = drivebase;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,14 +24,15 @@ public class Auto extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    encoderStart = drivebase.getAverageEncoderValue();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    drivebase.arcadeDrive(.3, 0);
-    // wait(2000, 0);
+    drivebase.arcadeDrive(-.3, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +42,7 @@ public class Auto extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // 37.4 per foot
+    return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4);
   }
 }
