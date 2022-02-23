@@ -4,37 +4,41 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Ejector;
 import frc.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.Timer;
 
-public class DriveBaseWait extends CommandBase {
-  private final Drivebase drivebase;
-  private final Elevator elevator;
+
+public class ShootAndWait extends CommandBase {
+  /** Creates a new ShootAndWait. */
+  public final Ejector shoot;
+  public final Elevator elevator;
   private double timerGoal;
   private double timerStart;
 
-  /** Creates a new DriveBaseWait. */
-  public DriveBaseWait(Drivebase drivebase, Elevator elevator) {
-    this.drivebase = drivebase;
+  public ShootAndWait(Elevator elevator, Ejector shoot) {
     this.elevator = elevator;
+    this.shoot = shoot;
     timerStart = 0;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.drivebase, this.elevator);
+    addRequirements(this.elevator, this.shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timerStart = Timer.getFPGATimestamp();
-    timerGoal = drivebase.getWaitInput();
+    timerGoal = 2;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    shoot.spinShoot(1);
+    elevator.moveBelt(.7);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -43,7 +47,6 @@ public class DriveBaseWait extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Ran stuff in Wait" + timerGoal);
-    return ((Timer.getFPGATimestamp() - timerStart) > timerGoal) && !elevator.isElevatorMoving();
+    return (Timer.getFPGATimestamp() - timerStart) > timerGoal;
   }
 }

@@ -23,7 +23,7 @@ public class Ejector extends SubsystemBase {
   }
 
   public void stopShoot(){
-    ejectorMotorR.stopMotor();;
+    ejectorMotorR.stopMotor();
   }
 
   @Override
