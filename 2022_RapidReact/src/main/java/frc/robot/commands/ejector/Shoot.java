@@ -14,7 +14,7 @@ public class Shoot extends CommandBase {
   public final double speed;
 
   /** Creates a new Shoot. */
-  public Shoot(Ejector shoot, double speed, Elevator elevator) {
+  public Shoot(Ejector shoot, Elevator elevator, double speed) {
     this.shoot = shoot;
     this.elevator = elevator;
     this.speed = speed;
