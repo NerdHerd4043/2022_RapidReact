@@ -13,7 +13,7 @@ import frc.robot.subsystems.Intake;
 public class HarvestDown extends InstantCommand {
   private final Intake intake;
 
-  public HarvestDown() {
+  public HarvestDown(Intake intake) {
     this.intake = intake;
 
     // Use addRequirements() here to declare subsystem dependencies.
