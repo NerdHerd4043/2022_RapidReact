@@ -35,7 +35,8 @@ public class RobotContainer {
   private final Ejector shoot = new Ejector();
 
   private final DriveForward autoForward = new DriveForward(drivebase);
-  private final WaitThenForward auto = new WaitThenForward(drivebase);
+  private final WaitThenForward auto = new WaitThenForward(drivebase, elevator);
+
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
 
@@ -87,7 +88,7 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, 1, elevator), true);
+    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1), true);
 
   }
 
