@@ -91,6 +91,8 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(intake), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1), true);
+    new JoystickButton(driveStick, Button.kBack.value).whenPressed(new ShiftDown(drivebase), true);
+    new JoystickButton(driveStick, Button.kStart.value).whenPressed(new ShiftUp(drivebase), true);
 
   }
 
