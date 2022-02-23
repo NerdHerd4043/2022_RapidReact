@@ -2,38 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
-import java.util.function.DoubleSupplier;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivebase;
 
-public class Drive extends CommandBase {
-
+public class DriveBaseWait extends CommandBase {
   private final Drivebase drivebase;
-  private final DoubleSupplier forward;
-  private final DoubleSupplier rotation;
+  private double timerGoal;
+  private double timerStart;
 
-  /** Creates a new Drive. */
-  public Drive(Drivebase driveSub, DoubleSupplier fwd, DoubleSupplier rot) {
-    drivebase = driveSub;
-    forward = fwd;
-    rotation = rot;
-    
+  /** Creates a new DriveBaseWait. */
+  public DriveBaseWait(Drivebase drivebase) {
+    this.drivebase = drivebase;
+    timerStart = 0;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.drivebase);
+    addRequirements(drivebase);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timerStart = Timer.getFPGATimestamp();
+    timerGoal = drivebase.getWaitInput();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    drivebase.arcadeDrive(forward.getAsDouble(), -rotation.getAsDouble());
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -42,6 +40,7 @@ public class Drive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    System.out.println("Ran stuff in Wait" + timerGoal);
+    return (Timer.getFPGATimestamp() - timerStart) > timerGoal;
   }
 }
