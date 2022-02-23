@@ -36,6 +36,7 @@ public class RobotContainer {
 
   private final DriveForward autoForward = new DriveForward(drivebase);
   private final WaitThenForward auto = new WaitThenForward(drivebase, elevator);
+  private final ShootThenDrive elevatorAuto = new ShootThenDrive(drivebase, elevator, shoot);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -52,8 +53,9 @@ public class RobotContainer {
 
     mjpegServer.setSource(usbCamera);
 
-    commandChooser.setDefaultOption("WaitThenAuto", auto);
+    commandChooser.addOption("WaitThenAuto", auto);
     commandChooser.addOption("NoWaitForwardPLS", autoForward);
+    commandChooser.setDefaultOption("ElevatorAndForwards", elevatorAuto);
 
     SmartDashboard.putData(commandChooser);
 
