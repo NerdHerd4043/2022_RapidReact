@@ -2,22 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.intake;
+
+import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Ejector;
 
-public class Shoot extends CommandBase {
-  public final Ejector shoot;
-  public final double speed;
+public class Harvest extends CommandBase {
+  public final Intake intake;
+  public final double hSpeed;
+  public final double kSpeed;
 
-  /** Creates a new Shoot. */
-  public Shoot(Ejector shoot, double speed) {
-    this.shoot = shoot;
-    this.speed = speed;
+  /** Creates a new DefaultIntake. */
+  public Harvest(Intake intake, double hSpeed, double kSpeed)
+  {
+    this.intake = intake;
+    this.hSpeed = hSpeed;
+    this.kSpeed = kSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.shoot);
+    addRequirements(this.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -28,13 +32,16 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() 
   {
-      shoot.spinShoot(speed);
+    if(intake.isDown()) {
+      intake.spinIntake(hSpeed, kSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shoot.stopShoot();
+  public void end(boolean interrupted) 
+  {
+    intake.stopIntake();
   }
 
   // Returns true when the command should end.
@@ -43,3 +50,5 @@ public class Shoot extends CommandBase {
     return false;
   }
 }
+
+//hi

@@ -8,23 +8,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants.EjectorConstants;
+import frc.robot.Constants.EjectorConstants;
 
 public class Ejector extends SubsystemBase {
   private CANSparkMax ejectorMotorL = new CANSparkMax (EjectorConstants.ejectorMotorRID, MotorType.kBrushless);
   private CANSparkMax ejectorMotorR = new CANSparkMax (EjectorConstants.ejectorMotorLID, MotorType.kBrushless);
   /** Creates a new Intake. */
   public Ejector() {
-    ejectorMotorL.follow(ejectorMotorR);
-    ejectorMotorL.setInverted(true);
+    ejectorMotorL.follow(ejectorMotorR, true);
   }
 
   public void spinShoot(double speed){
-    ejectorMotorL.set(speed);
+    ejectorMotorR.set(-speed);
   }
 
   public void stopShoot(){
-    ejectorMotorL.stopMotor();;
+    ejectorMotorR.stopMotor();;
   }
 
   @Override

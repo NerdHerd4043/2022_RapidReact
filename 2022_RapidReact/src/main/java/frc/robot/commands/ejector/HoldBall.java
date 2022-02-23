@@ -2,24 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ejector;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Elevator;
+import frc.robot.Constants.EjectorConstants;
+import frc.robot.subsystems.Ejector;
 
-public class DefaultElevator extends CommandBase {
-  public final Elevator elevator;
-  public final DoubleSupplier speed;
+public class HoldBall extends CommandBase {
 
-  /** Creates a new DefaultElevator. */
-  public DefaultElevator(Elevator elevator, DoubleSupplier speed) {
-    this.elevator = elevator;
-    this.speed = speed;
-
+  public final DoubleSupplier triggerPosition;
+  public final Ejector shoot;
+  /** Creates a new HoldBall. */
+  public HoldBall(Ejector shoot, DoubleSupplier triggerPosition) {
+    this.triggerPosition = triggerPosition;
+    this.shoot = shoot;
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.elevator);
+    addRequirements(this.shoot);
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +30,17 @@ public class DefaultElevator extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.moveBelt(speed.getAsDouble());
+    if(triggerPosition.getAsDouble() > 0.05){
+      shoot.spinShoot(EjectorConstants.speed);
+    } else {
+      shoot.stopShoot();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.stopBelt();
+    shoot.stopShoot();
   }
 
   // Returns true when the command should end.
