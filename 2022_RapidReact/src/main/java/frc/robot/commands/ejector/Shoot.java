@@ -2,25 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-
-import java.util.function.DoubleSupplier;
+package frc.robot.commands.ejector;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.DriveConstants.EjectorConstants;
 import frc.robot.subsystems.Ejector;
+import frc.robot.subsystems.Elevator;
 
-public class HoldBall extends CommandBase {
-
-  public final DoubleSupplier triggerPosition;
+public class Shoot extends CommandBase {
   public final Ejector shoot;
-  /** Creates a new HoldBall. */
-  public HoldBall(Ejector shoot, DoubleSupplier triggerPosition) {
-    this.triggerPosition = triggerPosition;
+  public final Elevator elevator;
+  public final double speed;
+
+  /** Creates a new Shoot. */
+  public Shoot(Ejector shoot, double speed, Elevator elevator) {
     this.shoot = shoot;
-    
+    this.elevator = elevator;
+    this.speed = speed;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.shoot);
+    addRequirements(this.elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -29,10 +30,10 @@ public class HoldBall extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(triggerPosition.getAsDouble() > 0.05){
-      shoot.spinShoot(EjectorConstants.speed);
-    }
+  public void execute() 
+  {
+      shoot.spinShoot(speed);
+      elevator.moveBelt(speed);
   }
 
   // Called once the command ends or is interrupted.

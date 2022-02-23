@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
 private WPI_TalonSRX beltMotor = new WPI_TalonSRX(ElevatorConstants.beltMotorID);
@@ -19,12 +19,13 @@ private WPI_TalonSRX beltMotor = new WPI_TalonSRX(ElevatorConstants.beltMotorID)
   }
 
   public void moveBelt(double speed){
-    beltMotor.set(speed);
+    beltMotor.set(-speed);
   }
 
   public void stopBelt() {
     beltMotor.stopMotor();
   }
+
 
   @Override
   public void periodic() {
