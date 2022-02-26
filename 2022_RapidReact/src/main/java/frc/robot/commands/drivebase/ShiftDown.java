@@ -22,13 +22,11 @@ public class ShiftDown extends InstantCommand {
   // Called when the command is initially scheduled.
 
 
-
-
-
-@Override
-public void initialize(){
-  drivebase.shift(DriveConstants.Gears.lowGear);
-}
+  @Override
+  public void initialize(){
+    drivebase.shift(DriveConstants.Gears.lowGear);
+    DriveConstants.Gears.isHighGear = false;
+  }
 }
 
 //hi
