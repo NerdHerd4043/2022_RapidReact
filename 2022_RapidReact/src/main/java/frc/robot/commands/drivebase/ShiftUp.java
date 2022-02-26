@@ -21,6 +21,7 @@ public class ShiftUp extends InstantCommand {
   @Override
   public void initialize() {
     drivebase.shift(DriveConstants.Gears.highGear);
+    DriveConstants.Gears.isHighGear = true;
   }
   // Called every time the scheduler runs while the command is scheduled.
 }
