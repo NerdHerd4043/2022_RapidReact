@@ -19,6 +19,9 @@ public final class Constants {
         public static final int backLeftMotorID = 6;
         public static final int backRightMotorID = 3;
 
+        public static final double highGearRamp = 0.8;
+        public static final double lowGearRamp = 0.4;
+
         public static final int shifterID = 1;
 
         public static final class Gears {

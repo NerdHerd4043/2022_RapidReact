@@ -38,7 +38,7 @@ public class Drive extends CommandBase {
   public void execute() {
 
     if(DriveConstants.Gears.isHighGear){
-      rotationCap = 2.0/10;
+      rotationCap = 0.7;
     }
     else{
       rotationCap = 1;

@@ -39,8 +39,8 @@ public class Drivebase extends SubsystemBase {
     //frontLeftMotor.setIdleMode(IdleMode.kCoast);
     //frontRightMotor.setIdleMode(IdleMode.kCoast);
    
-    frontLeftMotor.setOpenLoopRampRate(0.8);
-    frontRightMotor.setOpenLoopRampRate(0.8);
+    frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -58,6 +58,15 @@ public class Drivebase extends SubsystemBase {
 
   public void shift(boolean a) {
     shifter.set(a);
+
+    if(a){
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    }
+    else{
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+    }
   }
 
   public double getAverageEncoderValue() {

@@ -32,9 +32,7 @@ public class Harvest extends CommandBase {
   @Override
   public void execute() 
   {
-    if(intake.isDown()) {
-      intake.spinIntake(hSpeed, kSpeed);
-    }
+    intake.spinIntake(hSpeed, kSpeed);
   }
 
   // Called once the command ends or is interrupted.

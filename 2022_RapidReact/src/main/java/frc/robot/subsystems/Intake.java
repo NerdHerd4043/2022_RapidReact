@@ -31,13 +31,13 @@ public class Intake extends SubsystemBase
 
   public void spinIntake(double hSpeed, double kSpeed)
   {
-     harvesterMotor.set(hSpeed);
+    harvesterMotor.set(hSpeed);
     kickupMotor.set(kSpeed);
   }
 
   public void stopIntake()
   {
-     harvesterMotor.stopMotor();
+    harvesterMotor.stopMotor();
     kickupMotor.stopMotor();
   }
 
