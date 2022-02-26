@@ -17,10 +17,11 @@ public class ShootAndWait extends CommandBase {
   private double timerGoal;
   private double timerStart;
 
-  public ShootAndWait(Elevator elevator, Ejector shoot) {
+  public ShootAndWait(Elevator elevator, Ejector shoot, double waitTime) {
     this.elevator = elevator;
     this.shoot = shoot;
     timerStart = 0;
+    timerGoal = waitTime;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.elevator, this.shoot);
@@ -30,7 +31,6 @@ public class ShootAndWait extends CommandBase {
   @Override
   public void initialize() {
     timerStart = Timer.getFPGATimestamp();
-    timerGoal = 2;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +42,10 @@ public class ShootAndWait extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shoot.stopShoot();
+    elevator.stopBelt();
+  }
 
   // Returns true when the command should end.
   @Override

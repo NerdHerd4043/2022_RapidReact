@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.RobotConstants;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
@@ -35,8 +36,8 @@ public class RobotContainer {
   private final Ejector shoot = new Ejector();
 
   private final DriveForward autoForward = new DriveForward(drivebase);
-  private final WaitThenForward auto = new WaitThenForward(drivebase, elevator);
-  private final ShootThenDrive elevatorAuto = new ShootThenDrive(drivebase, elevator, shoot);
+  private final WaitThenForward auto = new WaitThenForward(drivebase, 0);
+  private final ShootThenDrive elevatorAuto = new ShootThenDrive(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -87,12 +88,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() 
   {
-    new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
-    new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
-    new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestDown(intake), true);
+    //new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
+    //new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
+    new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
+    new JoystickButton(driveStick, Button.kB.value).whenActive(new HarvestUp(intake), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1), true);
-    new JoystickButton(driveStick, Button.kBack.value).whenPressed(new ShiftDown(drivebase), true);
-    new JoystickButton(driveStick, Button.kStart.value).whenPressed(new ShiftUp(drivebase), true);
+    new JoystickButton(driveStick, Button.kLeftBumper.value).whenPressed(new ShiftDown(drivebase), true);
+    new JoystickButton(driveStick, Button.kRightBumper.value).whenPressed(new ShiftUp(drivebase), true);
 
   }
 

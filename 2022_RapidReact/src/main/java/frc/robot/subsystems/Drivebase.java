@@ -38,6 +38,9 @@ public class Drivebase extends SubsystemBase {
     //backRightMotor.setIdleMode(IdleMode.kCoast);
     //frontLeftMotor.setIdleMode(IdleMode.kCoast);
     //frontRightMotor.setIdleMode(IdleMode.kCoast);
+   
+    frontLeftMotor.setOpenLoopRampRate(0.8);
+    frontRightMotor.setOpenLoopRampRate(0.8);
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -45,12 +48,11 @@ public class Drivebase extends SubsystemBase {
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-
     putWaitInput();
   }
 
   public void arcadeDrive(double fwd, double rot) {
-    diffDrive.arcadeDrive(fwd, rot, false);
+    diffDrive.arcadeDrive(fwd, rot, true);
     // frontLeftMotor.set(fwd);
   }
 
