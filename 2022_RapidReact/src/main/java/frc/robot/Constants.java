@@ -24,6 +24,7 @@ public final class Constants {
         public static final class Gears {
             public static final boolean highGear = false;
             public static final boolean lowGear = true;
+            public static boolean isHighGear = false;
         }
     }
 
