@@ -22,9 +22,9 @@ public final class Constants {
         public static final int shifterID = 1;
 
         public static final class Gears {
-            public static final boolean highGear = false;
-            public static final boolean lowGear = true;
-            public static boolean isHighGear = false;
+            public static final boolean highGear = true;
+            public static final boolean lowGear = false;
+            public static boolean isHighGear = true;
         }
     }
 

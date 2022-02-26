@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
@@ -92,13 +91,16 @@ public class RobotContainer {
     //new JoystickButton(driveStick, Button.kLeftBumper.value).toggleWhenPressed(new Harvest(intake, .5, .5), true);
     //new JoystickButton(driveStick, Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kA.value).toggleWhenPressed(new Harvest (intake, .5, .5), true);
+    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest (intake, .5, .5), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
-    new JoystickButton(driveStick, Button.kB.value).toggleWhenPressed(new Harvest(intake, -.5, -.5), true);
+    new JoystickButton(driveStick, Button.kB.value).whenPressed(new Harvest(intake, 0, 0), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1), true);
     new JoystickButton(driveStick, Button.kLeftBumper.value).whenPressed(new ShiftDown(drivebase), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).whenPressed(new ShiftUp(drivebase), true);
+    
+    new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, .5), true);
 
+    
   }
 
   /**

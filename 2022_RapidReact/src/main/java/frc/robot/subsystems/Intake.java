@@ -17,7 +17,7 @@ import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase 
 {
-  // private CANSparkMax harvesterMotor = new CANSparkMax(IntakeConstants.harvesterMotorID, MotorType.kBrushless);
+   private CANSparkMax harvesterMotor = new CANSparkMax(IntakeConstants.harvesterMotorID, MotorType.kBrushless);
   private CANSparkMax kickupMotor = new CANSparkMax(IntakeConstants.kickupMotorID, MotorType.kBrushless);
 
   private Solenoid intakePiston = new Solenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakePistonID);
@@ -31,18 +31,19 @@ public class Intake extends SubsystemBase
 
   public void spinIntake(double hSpeed, double kSpeed)
   {
-    // harvesterMotor.set(hSpeed);
+     harvesterMotor.set(hSpeed);
     kickupMotor.set(kSpeed);
   }
 
   public void stopIntake()
   {
-    // harvesterMotor.stopMotor();
+     harvesterMotor.stopMotor();
     kickupMotor.stopMotor();
   }
 
   public void setIntakePiston(boolean z){
    intakePiston.set(z);
+   System.out.println("Piston: " + z);
   }
 
   public boolean isDown() {
