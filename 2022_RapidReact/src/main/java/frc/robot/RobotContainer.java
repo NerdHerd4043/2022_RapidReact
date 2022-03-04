@@ -38,13 +38,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivebase drivebase = new Drivebase();
   private final Elevator elevator = new Elevator();
-  private final Intake intake = new Intake();
+  public static final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
 
-  private final DriveForward autoForward = new DriveForward(drivebase);
-  private final WaitThenForward auto = new WaitThenForward(drivebase, 0);
-  private final ShootThenDrive elevatorAuto = new ShootThenDrive(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
-  private final ShootThenIntake intakeAuto = new ShootThenIntake(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final DriveForward driveForward = new DriveForward(drivebase);
+  private final WaitThenForward waitThenForward = new WaitThenForward(drivebase, 0);
+  private final ShootWaitDrive shootWaitDrive = new ShootWaitDrive(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
+  private final ShootThenIntake shootThenIntake = new ShootThenIntake(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -62,10 +62,10 @@ public class RobotContainer {
 
     mjpegServer.setSource(usbCamera);
 
-    commandChooser.addOption("WaitThenAuto", auto);
-    commandChooser.addOption("NoWaitForwardPLS", autoForward);
-    commandChooser.setDefaultOption("ElevatorAndForwards", elevatorAuto);
-    commandChooser.addOption("GrabAnotherCargo", intakeAuto);
+    commandChooser.addOption("WaitThenDrive", waitThenForward);
+    commandChooser.addOption("DriveForwardsImmediatly", driveForward);
+    commandChooser.setDefaultOption("ShootBall->Wait->LeaveTarmac", shootWaitDrive);
+    commandChooser.addOption("Shoot->Wait->DriveToGetMoreCargo->DriveBackToShoot", shootThenIntake);
 
     SmartDashboard.putData(commandChooser);
     
@@ -114,9 +114,7 @@ public class RobotContainer {
 
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, .5), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
-    if (intake.isDown()) {
-      new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
-    }
+    // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
 
   }
 

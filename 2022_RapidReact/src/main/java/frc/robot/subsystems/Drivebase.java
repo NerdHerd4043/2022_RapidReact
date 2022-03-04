@@ -48,7 +48,7 @@ public class Drivebase extends SubsystemBase {
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-    putWaitInput();
+    //putWaitInput();
   }
 
   public void arcadeDrive(double fwd, double rot) {
@@ -76,11 +76,11 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void putWaitInput() {
-    SmartDashboard.putNumber(DashboardStrings.waitInput, 5);
+    SmartDashboard.putNumber(DashboardStrings.waitInput, 4);
   }
 
   public double getWaitInput() {
-    return SmartDashboard.getNumber(DashboardStrings.waitInput, 5);
+    return SmartDashboard.getNumber(DashboardStrings.waitInput, 4);
   }
 
   @Override

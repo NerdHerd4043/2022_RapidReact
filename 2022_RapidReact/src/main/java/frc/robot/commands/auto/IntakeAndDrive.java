@@ -13,15 +13,19 @@ public class IntakeAndDrive extends CommandBase {
 
   private final Drivebase drivebase;
   private final Intake intake;
-  private double encoderStart;
   private final double speed;
+  private final boolean runIntake;
+  private final double distance;
+  private double encoderStart;
 
 
   /** Creates a new IntakeAndDrive. */
-  public IntakeAndDrive(Drivebase drivebase, Intake intake, double speed) {
+  public IntakeAndDrive(Drivebase drivebase, Intake intake, double speed, double distance, boolean runIntake) {
     this.drivebase = drivebase;
     this.intake = intake;
     this.speed = speed;
+    this.distance = distance;
+    this.runIntake = runIntake;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.drivebase, this.intake);
@@ -31,14 +35,15 @@ public class IntakeAndDrive extends CommandBase {
   @Override
   public void initialize() {
     encoderStart = drivebase.getAverageEncoderValue();
-    new HarvestDown(intake);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(runIntake){
+      intake.spinIntake(.5, .5);
+    }
     drivebase.arcadeDrive(-speed, 0);
-    intake.spinIntake(.5, .5);
   }
 
   // Called once the command ends or is interrupted.
@@ -50,6 +55,11 @@ public class IntakeAndDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4); //must go at least 12 ft 9 in
+     if(speed > 0){ 
+      return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * distance); //must go at least 12 ft 9 in
+     }
+     else{
+      return drivebase.getAverageEncoderValue() - encoderStart < -(37.6 * distance); //must go at least 12 ft 9 in
+     }
   }
 }

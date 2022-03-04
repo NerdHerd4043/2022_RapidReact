@@ -36,8 +36,8 @@ public class ShootAndWait extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoot.spinShoot(1);
-    elevator.moveBelt(.7);
+    shoot.spinShoot(.6);
+    elevator.moveBelt(1);
   }
 
   // Called once the command ends or is interrupted.

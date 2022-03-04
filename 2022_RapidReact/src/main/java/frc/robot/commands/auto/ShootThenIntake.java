@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.auto;
+import frc.robot.commands.intake.HarvestDown;
+import frc.robot.commands.intake.HarvestUp;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Ejector;
 import frc.robot.subsystems.Elevator;
@@ -20,8 +22,11 @@ public class ShootThenIntake extends SequentialCommandGroup {
     addCommands(
     new ShootAndWait(elevator, shoot, elevatorWait), 
     new DriveBaseWait(drivebase, elevatorWait), 
-    new IntakeAndDrive(drivebase, intake, .5),
-    new IntakeAndDrive(drivebase, intake, -.5),
+    new HarvestDown(intake),
+    new IntakeAndDrive(drivebase, intake, .85, 4.1, true),
+    new IntakeAndDrive(drivebase, intake, .5, 1, true),
+    new HarvestUp(intake),
+    new IntakeAndDrive(drivebase, intake, -.8, 5.1, false),
     new ShootAndWait(elevator, shoot, elevatorWait)
     );
   }

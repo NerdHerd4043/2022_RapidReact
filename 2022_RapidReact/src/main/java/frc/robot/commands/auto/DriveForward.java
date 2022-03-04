@@ -32,7 +32,7 @@ public class DriveForward extends CommandBase {
   @Override
   public void execute() 
   {
-    drivebase.arcadeDrive(-.5, 0);
+    drivebase.arcadeDrive(-.7, 0);
   }
 
   // Called once the command ends or is interrupted.
