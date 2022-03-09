@@ -76,11 +76,11 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void putWaitInput() {
-    SmartDashboard.putNumber(DashboardStrings.waitInput, 4);
+    SmartDashboard.putNumber(DashboardStrings.waitInput, 2);
   }
 
   public double getWaitInput() {
-    return SmartDashboard.getNumber(DashboardStrings.waitInput, 4);
+    return SmartDashboard.getNumber(DashboardStrings.waitInput, 2);
   }
 
   @Override

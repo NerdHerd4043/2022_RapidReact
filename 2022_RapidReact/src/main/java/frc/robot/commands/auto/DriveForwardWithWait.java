@@ -5,18 +5,18 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.autoCommands.DriveBaseWait;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.Ejector;
-import frc.robot.subsystems.Elevator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootWaitDrive extends SequentialCommandGroup {
-  /** Creates a new ShootThenDrive. */
-  public ShootWaitDrive(Drivebase drivebase, Elevator elevator, Ejector shoot, double elevatorWait) {
+public class DriveForwardWithWait extends SequentialCommandGroup {
+  /** Creates a new WaitThenForward. */
+  public DriveForwardWithWait(Drivebase drivebase, double elevatorWait) {
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShootAndWait(elevator, shoot, elevatorWait), new WaitThenForward(drivebase, elevatorWait));
+    addCommands(new DriveBaseWait(drivebase, elevatorWait), new DriveForward(drivebase));
   }
 }

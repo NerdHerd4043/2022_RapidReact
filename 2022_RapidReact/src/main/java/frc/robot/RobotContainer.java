@@ -42,9 +42,9 @@ public class RobotContainer {
   private final Ejector shoot = new Ejector();
 
   private final DriveForward driveForward = new DriveForward(drivebase);
-  private final WaitThenForward waitThenForward = new WaitThenForward(drivebase, 0);
-  private final ShootWaitDrive shootWaitDrive = new ShootWaitDrive(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
-  private final ShootThenIntake shootThenIntake = new ShootThenIntake(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
+  private final OneBallAuto shootWaitDrive = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
+  private final TwoBallAuto shootThenIntake = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -64,8 +64,8 @@ public class RobotContainer {
 
     commandChooser.addOption("WaitThenDrive", waitThenForward);
     commandChooser.addOption("DriveForwardsImmediatly", driveForward);
-    commandChooser.setDefaultOption("ShootBall->Wait->LeaveTarmac", shootWaitDrive);
-    commandChooser.addOption("Shoot->Wait->DriveToGetMoreCargo->DriveBackToShoot", shootThenIntake);
+    commandChooser.addOption("1 Ball Auto", shootWaitDrive);
+    commandChooser.setDefaultOption("2 Ball Auto", shootThenIntake); 
 
     SmartDashboard.putData(commandChooser);
     
@@ -108,7 +108,7 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, .5, .5), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new Harvest(intake, 0, 0), true);
-    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1, 0.6), true);
+    new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1, 0.65), true);
     new JoystickButton(driveStick, Button.kLeftBumper.value).whenPressed(new ShiftDown(drivebase), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).whenPressed(new ShiftUp(drivebase), true);
 
