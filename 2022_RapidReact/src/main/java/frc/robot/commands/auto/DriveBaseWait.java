@@ -7,29 +7,28 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.Elevator;
 
 public class DriveBaseWait extends CommandBase {
   private final Drivebase drivebase;
-  private final Elevator elevator;
   private double timerGoal;
   private double timerStart;
+  private double waitTime;
 
   /** Creates a new DriveBaseWait. */
-  public DriveBaseWait(Drivebase drivebase, Elevator elevator) {
+  public DriveBaseWait(Drivebase drivebase, double elevatorTime) {
     this.drivebase = drivebase;
-    this.elevator = elevator;
+    waitTime = elevatorTime;
     timerStart = 0;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.drivebase, this.elevator);
+    addRequirements(this.drivebase);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timerStart = Timer.getFPGATimestamp();
-    timerGoal = drivebase.getWaitInput();
+    timerGoal = drivebase.getWaitInput() - waitTime;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,6 +43,6 @@ public class DriveBaseWait extends CommandBase {
   @Override
   public boolean isFinished() {
     System.out.println("Ran stuff in Wait" + timerGoal);
-    return ((Timer.getFPGATimestamp() - timerStart) > timerGoal) && !elevator.isElevatorMoving();
+    return (Timer.getFPGATimestamp() - timerStart) > timerGoal;
   }
 }

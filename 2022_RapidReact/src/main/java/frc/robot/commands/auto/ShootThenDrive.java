@@ -4,7 +4,7 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Ejector;
 import frc.robot.subsystems.Elevator;
@@ -12,11 +12,11 @@ import frc.robot.subsystems.Elevator;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootThenDrive extends ParallelCommandGroup {
+public class ShootThenDrive extends SequentialCommandGroup {
   /** Creates a new ShootThenDrive. */
-  public ShootThenDrive(Drivebase drivebase, Elevator elevator, Ejector shoot) {
+  public ShootThenDrive(Drivebase drivebase, Elevator elevator, Ejector shoot, double elevatorWait) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShootAndWait(elevator, shoot), new WaitThenForward(drivebase, elevator));
+    addCommands(new ShootAndWait(elevator, shoot, elevatorWait), new WaitThenForward(drivebase, elevatorWait));
   }
 }
