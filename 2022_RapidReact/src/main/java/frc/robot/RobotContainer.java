@@ -75,7 +75,6 @@ public class RobotContainer {
     drivebase.setDefaultCommand(
         new Drive(
             drivebase,
-            DriveConstants.elevatorIsFront,
             () -> driveStick.getLeftY(),
             () -> driveStick.getRightX()));
 
