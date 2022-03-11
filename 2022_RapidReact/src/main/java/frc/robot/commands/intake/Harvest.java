@@ -2,27 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
-import java.util.function.DoubleSupplier;
+import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivebase;
 
-public class Drive extends CommandBase {
+public class Harvest extends CommandBase {
+  public final Intake intake;
+  public final double hSpeed;
+  public final double kSpeed;
 
-  private final Drivebase drivebase;
-  private final DoubleSupplier forward;
-  private final DoubleSupplier rotation;
+  /** Creates a new DefaultIntake. */
+  public Harvest(Intake intake, double hSpeed, double kSpeed)
+  {
+    this.intake = intake;
+    this.hSpeed = hSpeed;
+    this.kSpeed = kSpeed;
 
-  /** Creates a new Drive. */
-  public Drive(Drivebase driveSub, DoubleSupplier fwd, DoubleSupplier rot) {
-    drivebase = driveSub;
-    forward = fwd;
-    rotation = rot;
-    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivebase);
+    addRequirements(this.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -31,13 +30,17 @@ public class Drive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    drivebase.arcadeDrive(forward.getAsDouble(), -rotation.getAsDouble());
+  public void execute() 
+  {
+    intake.spinIntake(hSpeed, kSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) 
+  {
+    intake.stopIntake();
+  }
 
   // Returns true when the command should end.
   @Override
@@ -45,3 +48,5 @@ public class Drive extends CommandBase {
     return false;
   }
 }
+
+//hi

@@ -14,20 +14,46 @@ package frc.robot;
  */
 public final class Constants {
     public static final class DriveConstants {
-        public static final int frontLeftMotorID = 1;
-        public static final int frontRightMotorID = 2;
+        public static final int frontLeftMotorID = 10;
+        public static final int frontRightMotorID = 8;
         public static final int backLeftMotorID = 6;
         public static final int backRightMotorID = 3;
 
+        public static final double highGearRamp = 0.8;
+        public static final double lowGearRamp = 0.4;
+
         public static final int shifterID = 1;
 
-
-    public static final class Gears {
-        public static final boolean highGear = false;
-        public static final boolean lowGear = true;
+        public static final class Gears {
+            public static final boolean highGear = true;
+            public static final boolean lowGear = false;
+            public static boolean isHighGear = true;
+        }
     }
+
     public static final class RobotConstants {
         public static final int PCMD = 1;
+        public static final double elevatorWaitTime = 1;
     }
+    public static final class ElevatorConstants {
+        public static final int beltMotorID = 15;
+    }
+
+    public static final class IntakeConstants {
+        public static final int harvesterMotorID = 13;
+        public static final int kickupMotorID = 11;
+        
+        public static final int intakePistonID = 2;
+    }
+
+    public static final class EjectorConstants {
+        public static final int ejectorMotorRID = 9;
+        public static final int ejectorMotorLID = 5;
+        public static final double speed = -0.3;
+
+    }
+
+    public static final class DashboardStrings {
+        public static final String waitInput = "Auto Wait Time";
     }
 }

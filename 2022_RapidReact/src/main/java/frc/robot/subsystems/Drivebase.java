@@ -11,9 +11,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DashboardStrings;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveConstants.RobotConstants;
 
 
 public class Drivebase extends SubsystemBase {
@@ -33,10 +34,13 @@ public class Drivebase extends SubsystemBase {
     frontLeftMotor.restoreFactoryDefaults();
     backRightMotor.restoreFactoryDefaults();
    
-    backLeftMotor.setIdleMode(IdleMode.kBrake);
-    backRightMotor.setIdleMode(IdleMode.kBrake);
-    frontLeftMotor.setIdleMode(IdleMode.kBrake);
-    frontRightMotor.setIdleMode(IdleMode.kBrake);
+    //backLeftMotor.setIdleMode(IdleMode.kCoast);
+    //backRightMotor.setIdleMode(IdleMode.kCoast);
+    //frontLeftMotor.setIdleMode(IdleMode.kCoast);
+    //frontRightMotor.setIdleMode(IdleMode.kCoast);
+   
+    frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -44,6 +48,7 @@ public class Drivebase extends SubsystemBase {
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+    //putWaitInput();
   }
 
   public void arcadeDrive(double fwd, double rot) {
@@ -51,11 +56,35 @@ public class Drivebase extends SubsystemBase {
     // frontLeftMotor.set(fwd);
   }
 
+  public void shift(boolean a) {
+    shifter.set(a);
+
+    if(a){
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    }
+    else{
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+    }
+  }
+
+  public double getAverageEncoderValue() {
+    System.out.println(frontRightMotor.getEncoder().getCountsPerRevolution());
+    // System.out.println("L: " + frontLeftMotor.getEncoder().getPosition() + " -- R: " + frontRightMotor.getEncoder().getPosition());
+    return (-frontLeftMotor.getEncoder().getPosition() + -frontRightMotor.getEncoder().getPosition()) / 2;
+  }
+
+  public void putWaitInput() {
+    SmartDashboard.putNumber(DashboardStrings.waitInput, 2);
+  }
+
+  public double getWaitInput() {
+    return SmartDashboard.getNumber(DashboardStrings.waitInput, 2);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-public void shift(boolean a) {
-  shifter.set(a);
-}
 }
