@@ -11,13 +11,21 @@ import frc.robot.subsystems.Elevator;
 public class Shoot extends CommandBase {
   public final Ejector shoot;
   public final Elevator elevator;
-  public final double speed;
+  public final double kSpeed;
+  public final double eSpeed;
 
-  /** Creates a new Shoot. */
-  public Shoot(Ejector shoot, Elevator elevator, double speed) {
+  /**
+   * Creates a new Shoot
+   * @param shoot The Ejector
+   * @param elevator The Elevator
+   * @param eSpeed Elevator Speed
+   * @param kSpeed Ejector Kickout Speed
+   */
+  public Shoot(Ejector shoot, Elevator elevator, double eSpeed, double kSpeed) {
     this.shoot = shoot;
     this.elevator = elevator;
-    this.speed = speed;
+    this.kSpeed = kSpeed;
+    this.eSpeed = eSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.shoot);
@@ -32,8 +40,8 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() 
   {
-      shoot.spinShoot(speed);
-      elevator.moveBelt(speed);
+      shoot.spinShoot(kSpeed);
+      elevator.moveBelt(eSpeed);
   }
 
   // Called once the command ends or is interrupted.
