@@ -105,7 +105,7 @@ public class RobotContainer {
     // true);
     // new JoystickButton(driveStick,
     // Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5),
-    // true);
+    // true); 
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 1, 1), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
@@ -114,7 +114,7 @@ public class RobotContainer {
     new JoystickButton(driveStick, Button.kY.value).whenPressed(new FlipFront(), true);
     new JoystickButton(driveStick, Button.kLeftBumper.value).whenPressed(new ShiftDown(drivebase), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).whenPressed(new ShiftUp(drivebase), true);
-
+    
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
     // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
@@ -132,6 +132,8 @@ public class RobotContainer {
     return commandChooser.getSelected();
   }
 
+
 }
 
 // hi
+
