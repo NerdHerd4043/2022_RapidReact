@@ -39,8 +39,8 @@ public class Drivebase extends SubsystemBase {
     //frontLeftMotor.setIdleMode(IdleMode.kCoast);
     //frontRightMotor.setIdleMode(IdleMode.kCoast);
    
-    frontLeftMotor.setOpenLoopRampRate(0.8);
-    frontRightMotor.setOpenLoopRampRate(0.8);
+    frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -48,7 +48,7 @@ public class Drivebase extends SubsystemBase {
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-    putWaitInput();
+    //putWaitInput();
   }
 
   public void arcadeDrive(double fwd, double rot) {
@@ -58,6 +58,15 @@ public class Drivebase extends SubsystemBase {
 
   public void shift(boolean a) {
     shifter.set(a);
+
+    if(a){
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    }
+    else{
+      frontLeftMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+      frontRightMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+    }
   }
 
   public double getAverageEncoderValue() {
@@ -67,11 +76,11 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void putWaitInput() {
-    SmartDashboard.putNumber(DashboardStrings.waitInput, 5);
+    SmartDashboard.putNumber(DashboardStrings.waitInput, 2);
   }
 
   public double getWaitInput() {
-    return SmartDashboard.getNumber(DashboardStrings.waitInput, 5);
+    return SmartDashboard.getNumber(DashboardStrings.waitInput, 2);
   }
 
   @Override

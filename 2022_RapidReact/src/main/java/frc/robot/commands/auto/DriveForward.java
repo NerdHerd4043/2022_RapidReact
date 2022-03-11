@@ -32,7 +32,7 @@ public class DriveForward extends CommandBase {
   @Override
   public void execute() 
   {
-    drivebase.arcadeDrive(-.5, 0);
+    drivebase.arcadeDrive(-.7, 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +43,6 @@ public class DriveForward extends CommandBase {
   @Override
   public boolean isFinished() {
     // 37.4 per foot
-    return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4);
+    return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4); //must go at least 7 feet
   }
 }

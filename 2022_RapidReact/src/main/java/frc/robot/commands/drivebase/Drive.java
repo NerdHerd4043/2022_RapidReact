@@ -36,10 +36,9 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(rotation.getAsDouble());
 
     if(DriveConstants.Gears.isHighGear){
-      rotationCap = 2.0/10;
+      rotationCap = 0.7;
     }
     else{
       rotationCap = 1;
