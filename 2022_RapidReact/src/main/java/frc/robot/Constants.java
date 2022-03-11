@@ -22,6 +22,8 @@ public final class Constants {
         public static final double highGearRamp = 0.8;
         public static final double lowGearRamp = 0.4;
 
+        public static final int currentLimit = 30;
+
         public static final int shifterID = 1;
 
         public static boolean elevatorIsFront = true;

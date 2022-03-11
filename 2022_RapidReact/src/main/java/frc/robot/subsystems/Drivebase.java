@@ -46,11 +46,10 @@ public class Drivebase extends SubsystemBase {
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
-    backLeftMotor.setSmartCurrentLimit(30);
-    frontLeftMotor.setSmartCurrentLimit(30);
-    backLeftMotor.setSmartCurrentLimit(30);
-    frontRightMotor.setSmartCurrentLimit(30);
-    backRightMotor.setSmartCurrentLimit(30);
+    frontLeftMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    backLeftMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    frontRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    backRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
