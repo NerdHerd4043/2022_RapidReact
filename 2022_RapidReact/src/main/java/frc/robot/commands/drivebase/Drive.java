@@ -16,12 +16,14 @@ public class Drive extends CommandBase {
   private final DoubleSupplier forward;
   private final DoubleSupplier rotation;
   private double rotationCap;
+  private boolean elevatorIsFront;
 
   /** Creates a new Drive. */
-  public Drive(Drivebase driveSub, DoubleSupplier fwd, DoubleSupplier rot) {
+  public Drive(Drivebase driveSub, boolean elevatorIsFront, DoubleSupplier fwd, DoubleSupplier rot) {
     drivebase = driveSub;
     forward = fwd;
     rotation = rot;
+    this.elevatorIsFront = elevatorIsFront;
     rotationCap = 1;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,7 +46,13 @@ public class Drive extends CommandBase {
       rotationCap = 1;
     }
 
-    drivebase.arcadeDrive(forward.getAsDouble(), -rotation.getAsDouble() * rotationCap);
+    if(elevatorIsFront){
+      drivebase.arcadeDrive(forward.getAsDouble(), -rotation.getAsDouble() * rotationCap);      
+    }
+    else{
+      drivebase.arcadeDrive(-forward.getAsDouble(), -rotation.getAsDouble() * rotationCap);
+    }
+
   }
 
   // Called once the command ends or is interrupted.

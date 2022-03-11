@@ -24,6 +24,8 @@ public final class Constants {
 
         public static final int shifterID = 1;
 
+        public static boolean elevatorIsFront = true;
+
         public static final class Gears {
             public static final boolean highGear = true;
             public static final boolean lowGear = false;
