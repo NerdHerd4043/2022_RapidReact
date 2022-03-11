@@ -26,6 +26,8 @@ public class Drivebase extends SubsystemBase {
   private CANSparkMax backRightMotor = new CANSparkMax(DriveConstants.backRightMotorID, MotorType.kBrushless);
   
   private Solenoid shifter = new Solenoid(PneumaticsModuleType.CTREPCM, DriveConstants.shifterID);
+
+  private boolean elevatorIsFront = true;
   
   /** Creates a new Drivebase. */
   public Drivebase() {
@@ -66,6 +68,19 @@ public class Drivebase extends SubsystemBase {
     else{
       frontLeftMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
       frontRightMotor.setOpenLoopRampRate(DriveConstants.lowGearRamp);
+    }
+  }
+
+  public void flipFront() {
+    if(elevatorIsFront){
+      frontRightMotor.setInverted(false);
+      frontLeftMotor.setInverted(true);
+      elevatorIsFront = false;
+    }
+    else{
+      frontRightMotor.setInverted(true);
+      frontLeftMotor.setInverted(false);
+      elevatorIsFront = true;
     }
   }
 
