@@ -26,7 +26,7 @@ public final class Constants {
 
         public static final int shifterID = 1;
 
-        public static boolean elevatorIsFront = true;
+        public static boolean harvesterIsFront = true;
 
         public static final class Gears {
             public static final boolean highGear = true;
@@ -59,5 +59,7 @@ public final class Constants {
 
     public static final class DashboardStrings {
         public static final String waitInput = "Auto Wait Time";
+        public static final String gearMode = "Gear Mode";
+        public static final String drivetrainDirection = "Drivetrain Direction";
     }
 }

@@ -4,8 +4,10 @@
 
 package frc.robot.commands.drivebase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.Constants.DashboardStrings;
 import frc.robot.Constants.DriveConstants;
 
 public class ShiftUp extends InstantCommand {
@@ -22,6 +24,7 @@ public class ShiftUp extends InstantCommand {
   public void initialize() {
     drivebase.shift(DriveConstants.Gears.highGear);
     DriveConstants.Gears.isHighGear = true;
+    SmartDashboard.putString(DashboardStrings.gearMode, "High Gear");
   }
   // Called every time the scheduler runs while the command is scheduled.
 }

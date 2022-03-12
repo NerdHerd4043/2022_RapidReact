@@ -46,7 +46,7 @@ public class Drive extends CommandBase {
       rotationCap = 1;
     }
 
-    if(DriveConstants.elevatorIsFront){
+    if(DriveConstants.harvesterIsFront){
       drivebase.arcadeDrive(forward.getAsDouble(), -rotation.getAsDouble() * rotationCap);      
     }
     else{

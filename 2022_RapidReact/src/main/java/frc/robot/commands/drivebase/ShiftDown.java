@@ -5,7 +5,9 @@
 package frc.robot.commands.drivebase;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.DashboardStrings;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivebase;
 
@@ -26,6 +28,7 @@ public class ShiftDown extends InstantCommand {
   public void initialize(){
     drivebase.shift(DriveConstants.Gears.lowGear);
     DriveConstants.Gears.isHighGear = false;
+    SmartDashboard.putString(DashboardStrings.gearMode, "Low Gear");
   }
 }
 
