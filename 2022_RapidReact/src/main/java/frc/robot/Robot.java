@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DashboardStrings;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.intake.HarvestUp;
+import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Intake;
 
 /**
@@ -35,7 +36,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     SmartDashboard.putString(DashboardStrings.gearMode, "Low Gear");
     SmartDashboard.putString(DashboardStrings.drivetrainDirection, "Harvester is front");
-
   }
 
   /**

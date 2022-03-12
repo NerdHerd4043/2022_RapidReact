@@ -42,7 +42,8 @@ public class DriveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // 37.4 per foot
+    // 37.4 per foot <--- not true
+    //4096 ticks per revolution
     return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4); //must go at least 7 feet
   }
 }
