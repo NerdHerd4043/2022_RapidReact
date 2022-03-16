@@ -5,9 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DashboardStrings;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.intake.HarvestUp;
+import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Intake;
 
 /**
@@ -30,7 +34,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
+    SmartDashboard.putString(DashboardStrings.gearMode, "Low Gear");
+    SmartDashboard.putString(DashboardStrings.drivetrainDirection, "Harvester is front");
   }
 
   /**

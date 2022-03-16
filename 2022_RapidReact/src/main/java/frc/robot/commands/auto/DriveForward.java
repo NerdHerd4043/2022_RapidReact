@@ -33,6 +33,7 @@ public class DriveForward extends CommandBase {
   public void execute() 
   {
     drivebase.arcadeDrive(-.7, 0);
+    System.out.println(drivebase.getAverageEncoderValue());
   }
 
   // Called once the command ends or is interrupted.
@@ -42,7 +43,12 @@ public class DriveForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // 37.4 per foot
-    return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4); //must go at least 7 feet
+    /*~14 per foot <--- not true
+    42 ticks per revolution?
+    low gear is 24:1?
+    high gear is 9.4:1?
+    circumfrence of wheel is about 9.8175*/
+    return drivebase.getAverageEncoderValue() - encoderStart > (14 * 8);
+    // return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * 4); //must go at least 7 feet
   }
 }
