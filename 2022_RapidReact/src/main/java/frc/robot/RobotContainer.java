@@ -44,8 +44,9 @@ public class RobotContainer {
 
   private final DriveForward driveForward = new DriveForward(drivebase);
   private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
-  private final OneBallAuto shootWaitDrive = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
-  private final TwoBallAuto shootThenIntake = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
+  private final TwoBallAuto twoBallAuto = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final TwoBallWallAuto twoBallWallAuto = new TwoBallWallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -65,8 +66,9 @@ public class RobotContainer {
 
     commandChooser.addOption("WaitThenDrive", waitThenForward);
     commandChooser.addOption("DriveForwardsImmediatly", driveForward);
-    commandChooser.addOption("1 Ball Auto", shootWaitDrive);
-    commandChooser.setDefaultOption("2 Ball Auto", shootThenIntake); 
+    commandChooser.addOption("1 Ball Auto", oneBallAuto);
+    commandChooser.setDefaultOption("2 Ball Auto", twoBallAuto); 
+    commandChooser.addOption("2 Ball Wall Auto", twoBallWallAuto); 
 
     SmartDashboard.putData(commandChooser);
     
