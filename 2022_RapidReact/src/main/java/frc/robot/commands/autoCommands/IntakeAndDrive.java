@@ -41,7 +41,7 @@ public class IntakeAndDrive extends CommandBase {
   @Override
   public void execute() {
     if(runIntake){
-      intake.spinIntake(1, 1);
+      intake.spinIntake(0.9, 0.9);
     }
     drivebase.arcadeDrive(-speed, 0);
   }

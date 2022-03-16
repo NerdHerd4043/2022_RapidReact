@@ -108,7 +108,7 @@ public class RobotContainer {
     // Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5),
     // true); 
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 1, 1), true);
+    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 0.9, 0.9), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new Harvest(intake, 0, 0), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1, 0.65), true);
