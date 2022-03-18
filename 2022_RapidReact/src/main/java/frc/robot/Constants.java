@@ -62,4 +62,8 @@ public final class Constants {
         public static final String gearMode = "Gear Mode";
         public static final String drivetrainDirection = "Drivetrain Direction";
     }
+    public static final class ClimbConstants {
+        public static final int climbMotorID = 14;
+        public static final double speed = 0.3;
+    }
 }
