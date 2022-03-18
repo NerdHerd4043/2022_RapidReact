@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.Climber;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
@@ -41,7 +42,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   public static final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
-
+  private final Climb climb = new Climb();
   private final DriveForward driveForward = new DriveForward(drivebase);
   private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
   private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
@@ -118,6 +119,7 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
+    new JoystickButton(driveStick, Button.k);
     // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
 
   }
