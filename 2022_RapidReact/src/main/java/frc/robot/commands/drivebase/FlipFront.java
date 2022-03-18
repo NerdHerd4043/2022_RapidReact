@@ -4,25 +4,31 @@
 
 package frc.robot.commands.drivebase;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Drivebase;
+import frc.robot.Constants.DashboardStrings;
+import frc.robot.Constants.DriveConstants;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FlipFront extends InstantCommand {
-  Drivebase drivebase;
+  // Drivebase drivebase;
 
-  public FlipFront(Drivebase drivebase) {
-    this.drivebase = drivebase;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.drivebase);
-  }
+  public FlipFront() {}
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.flipFront();
+    if(DriveConstants.harvesterIsFront){
+      DriveConstants.harvesterIsFront = false;
+      SmartDashboard.putString(DashboardStrings.drivetrainDirection, "Elevator is front");
+    }
+    else{
+      DriveConstants.harvesterIsFront = true;
+      SmartDashboard.putString(DashboardStrings.drivetrainDirection, "Harvester is front");
+    }
   }
 }
+
+//I think I overcomplicated how to flip the drivetrain but guess what it works and I don't care  :)

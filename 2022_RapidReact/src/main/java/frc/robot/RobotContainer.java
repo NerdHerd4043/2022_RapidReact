@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
@@ -43,8 +44,9 @@ public class RobotContainer {
 
   private final DriveForward driveForward = new DriveForward(drivebase);
   private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
-  private final OneBallAuto shootWaitDrive = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
-  private final TwoBallAuto shootThenIntake = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
+  private final TwoBallAuto twoBallAuto = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  private final TwoBallWallAuto twoBallWallAuto = new TwoBallWallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -64,8 +66,9 @@ public class RobotContainer {
 
     commandChooser.addOption("WaitThenDrive", waitThenForward);
     commandChooser.addOption("DriveForwardsImmediatly", driveForward);
-    commandChooser.addOption("1 Ball Auto", shootWaitDrive);
-    commandChooser.setDefaultOption("2 Ball Auto", shootThenIntake); 
+    commandChooser.addOption("1 Ball Auto", oneBallAuto);
+    commandChooser.setDefaultOption("2 Ball Auto", twoBallAuto); 
+    commandChooser.addOption("2 Ball Wall Auto", twoBallWallAuto); 
 
     SmartDashboard.putData(commandChooser);
     
@@ -105,11 +108,11 @@ public class RobotContainer {
     // Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5),
     // true); 
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 1, 1), true);
+    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 0.9, 0.9), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new Harvest(intake, 0, 0), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1, 0.65), true);
-    new JoystickButton(driveStick, Button.kY.value).whenPressed(new FlipFront(drivebase), true);
+    new JoystickButton(driveStick, Button.kY.value).whenPressed(new FlipFront(), true);
     new JoystickButton(driveStick, Button.kLeftBumper.value).whenPressed(new ShiftDown(drivebase), true);
     new JoystickButton(driveStick, Button.kRightBumper.value).whenPressed(new ShiftUp(drivebase), true);
     
@@ -134,4 +137,3 @@ public class RobotContainer {
 }
 
 // hi
-
