@@ -16,9 +16,10 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RobotConstants;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.Climber;
 import frc.robot.commands.auto.*;
+import frc.robot.commands.climber.Climber;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
 import frc.robot.commands.elevator.*;
@@ -26,6 +27,7 @@ import frc.robot.commands.drivebase.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,6 +45,7 @@ public class RobotContainer {
   public static final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
   private final Climb climb = new Climb();
+  
   private final DriveForward driveForward = new DriveForward(drivebase);
   private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
   private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
@@ -119,7 +122,8 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
-    new JoystickButton(driveStick, Button.k);
+    new POVButton(driveStick, 0).whenPressed(new Climber(climb, ClimbConstants.speed));
+    new POVButton(driveStick, 180).whenPressed(new Climber(climb, -ClimbConstants.speed));
     // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
 
   }
