@@ -4,19 +4,21 @@
 
 package frc.robot.commands.climber;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climb;
 
 public class Climber extends CommandBase {
   public final Climb climb;
   public final double speed;
+  public final Double startPosition;
+  // private final double startPosition;
 
   /** Creates a new climber. */
-  public Climber(Climb climb, double speed) {
+  public Climber(Climb climb, double speed, Double startPosition) {
     this.climb = climb;
     this.speed = speed;
+    this.startPosition = startPosition;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climb);  
   }
@@ -24,12 +26,20 @@ public class Climber extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climb.moveClimb(speed);
+    // if((climb.getEncoderValue() - startPosition >= -42 && speed < -0.05) || 
+    // (climb.getEncoderValue() - startPosition <= 42*2 && speed > 0.05)){
+      climb.moveClimb(speed);
+    // }
+    // else{
+    //   climb.stopClimb();
+    // }
+    //one rotation  is 1.732 inches
   }
 
   // Called once the command ends or is interrupted.

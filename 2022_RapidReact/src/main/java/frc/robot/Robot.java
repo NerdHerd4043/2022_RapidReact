@@ -88,11 +88,15 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.startPosition = m_robotContainer.climb.getEncoderValue();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    System.out.println(m_robotContainer.startPosition + " : " + (m_robotContainer.climb.getEncoderValue() - m_robotContainer.startPosition));
+  }
 
   @Override
   public void testInit() {

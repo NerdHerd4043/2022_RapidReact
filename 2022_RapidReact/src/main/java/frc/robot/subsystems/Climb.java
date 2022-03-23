@@ -21,12 +21,19 @@ public class Climb extends SubsystemBase {
     climbMotor.setIdleMode(IdleMode.kBrake);
   }
 
+  public double getEncoderValue()
+  {
+    return climbMotor.getEncoder().getPosition();
+  }
+
   public void moveClimb(double speed){
     climbMotor.set(speed);
   }
+
   public void stopClimb() {
     climbMotor.stopMotor();
   }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
