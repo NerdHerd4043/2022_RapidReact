@@ -20,7 +20,7 @@ public final class Constants {
         public static final int backRightMotorID = 3;
 
         public static final double highGearRamp = 0.2;
-        public static final double lowGearRamp = 0.2;
+        public static final double lowGearRamp = 0.1;
 
         public static final int currentLimit = 40;
 
