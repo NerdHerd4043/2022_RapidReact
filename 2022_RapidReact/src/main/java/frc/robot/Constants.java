@@ -61,9 +61,12 @@ public final class Constants {
         public static final String waitInput = "Auto Wait Time";
         public static final String gearMode = "Gear Mode";
         public static final String drivetrainDirection = "Drivetrain Direction";
+        public static final String climberLock = "Climber Lock On";
     }
     public static final class ClimbConstants {
         public static final int climbMotorID = 14;
-        public static final double speed = 0.7;
+        public static final double speed = 1;
+        public static boolean firstEncoderCheck = true;
+        public static boolean climberLock = true;
     }
 }

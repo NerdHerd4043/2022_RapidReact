@@ -5,19 +5,20 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climb;
 
 public class Climber extends CommandBase {
   public final Climb climb;
   public final double speed;
-  public final Double startPosition;
+  public double startPosition;
   // private final double startPosition;
 
   /** Creates a new climber. */
-  public Climber(Climb climb, double speed, Double startPosition) {
+  public Climber(Climb climb, double speed /*, Double startPosition*/) {
     this.climb = climb;
     this.speed = speed;
-    this.startPosition = startPosition;
+    // this.startPosition = startPosition;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climb);  
@@ -27,18 +28,23 @@ public class Climber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(ClimbConstants.firstEncoderCheck)
+    {
+      startPosition = climb.getEncoderValue();
+      ClimbConstants.firstEncoderCheck = false;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if((climb.getEncoderValue() - startPosition >= -42 && speed < -0.05) || 
-    // (climb.getEncoderValue() - startPosition <= 42*2 && speed > 0.05)){
+    if((climb.getEncoderValue() - startPosition >= -84 && speed < -0.05 && !ClimbConstants.climberLock) || 
+    (climb.getEncoderValue() - startPosition <= 57 && speed > 0.05)){
       climb.moveClimb(speed);
-    // }
-    // else{
-    //   climb.stopClimb();
-    // }
+    }
+    else{
+      climb.stopClimb();
+    }
     //one rotation  is 1.732 inches
   }
 

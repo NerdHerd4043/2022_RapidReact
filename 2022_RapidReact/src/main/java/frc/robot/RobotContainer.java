@@ -20,6 +20,7 @@ import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.climber.Climber;
+import frc.robot.commands.climber.ToggleLock;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
 import frc.robot.commands.elevator.*;
@@ -124,8 +125,9 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
-    new POVButton(driveStick, 0).whenHeld(new Climber(climb, -ClimbConstants.speed, startPosition));
-    new POVButton(driveStick, 180).whenHeld(new Climber(climb, ClimbConstants.speed, startPosition));
+    new POVButton(driveStick, 0).whenHeld(new Climber(climb, -ClimbConstants.speed));
+    new POVButton(driveStick, 180).whenHeld(new Climber(climb, ClimbConstants.speed));
+    new POVButton(driveStick, 90).whenPressed(new ToggleLock());
     // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
 
   }
