@@ -27,6 +27,8 @@ public class Intake extends SubsystemBase
     kickupMotor.restoreFactoryDefaults();
 
     kickupMotor.setIdleMode(IdleMode.kBrake);
+
+    harvesterMotor.setOpenLoopRampRate(0.5f);
   }
 
   public void spinIntake(double hSpeed, double kSpeed)

@@ -41,7 +41,7 @@ public class IntakeAndDrive extends CommandBase {
   @Override
   public void execute() {
     if(runIntake){
-      intake.spinIntake(.5, .5);
+      intake.spinIntake(0.9, 0.9);
     }
     drivebase.arcadeDrive(-speed, 0);
   }
@@ -56,10 +56,10 @@ public class IntakeAndDrive extends CommandBase {
   @Override
   public boolean isFinished() {
      if(speed > 0){ 
-      return drivebase.getAverageEncoderValue() - encoderStart > (37.6 * distance); //must go at least 12 ft 9 in
+      return drivebase.getAverageEncoderValue() - encoderStart > (distance); //must go at least 12 ft 9 in
      }
      else{
-      return drivebase.getAverageEncoderValue() - encoderStart < -(37.6 * distance); //must go at least 12 ft 9 in
+      return drivebase.getAverageEncoderValue() - encoderStart < -(distance); //must go at least 12 ft 9 in
      }
   }
 }

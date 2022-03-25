@@ -44,11 +44,15 @@ public class Drivebase extends SubsystemBase {
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
-
+    frontLeftMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    backLeftMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    frontRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
+    backRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
     frontRightMotor.setInverted(true);
 
     diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
     //putWaitInput();
+
   }
 
   public void arcadeDrive(double fwd, double rot) {

@@ -19,10 +19,14 @@ public final class Constants {
         public static final int backLeftMotorID = 6;
         public static final int backRightMotorID = 3;
 
-        public static final double highGearRamp = 0.8;
-        public static final double lowGearRamp = 0.4;
+        public static final double highGearRamp = 0.2;
+        public static final double lowGearRamp = 0.1;
+
+        public static final int currentLimit = 40;
 
         public static final int shifterID = 1;
+
+        public static boolean harvesterIsFront = true;
 
         public static final class Gears {
             public static final boolean highGear = true;
@@ -55,5 +59,14 @@ public final class Constants {
 
     public static final class DashboardStrings {
         public static final String waitInput = "Auto Wait Time";
+        public static final String gearMode = "Gear Mode";
+        public static final String drivetrainDirection = "Drivetrain Direction";
+        public static final String climberLock = "Climber Lock On";
+    }
+    public static final class ClimbConstants {
+        public static final int climbMotorID = 14;
+        public static final double speed = 1;
+        public static boolean firstEncoderCheck = true;
+        public static boolean climberLock = true;
     }
 }
