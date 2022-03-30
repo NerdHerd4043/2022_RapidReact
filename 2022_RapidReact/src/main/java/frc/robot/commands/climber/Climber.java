@@ -38,8 +38,8 @@ public class Climber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if((/*climb.getEncoderValue() - startPosition <= 84 &&*/ speed > 0.05 && !ClimbConstants.climberLock) || 
-    (climb.getEncoderValue() - startPosition >= -57 && speed < -0.05)){
+    if((speed > 0.05 && !ClimbConstants.climberLock) || 
+    (climb.getEncoderValue() - startPosition >= -75 && speed < -0.05)){
       climb.moveClimb(speed);
     }
     else{
