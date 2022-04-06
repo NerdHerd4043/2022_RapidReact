@@ -24,9 +24,9 @@ public class ToggleLock extends InstantCommand {
       ClimbConstants.climberLock = false;
       SmartDashboard.putString(DashboardStrings.climberLock, "Lock is off");
     }
-    else{
-      ClimbConstants.climberLock = true;
-      SmartDashboard.putString(DashboardStrings.climberLock, "Lock is on");
-    }
+    // else{
+    //   ClimbConstants.climberLock = true;
+    //   SmartDashboard.putString(DashboardStrings.climberLock, "Lock is on");
+    // }
   }
 }

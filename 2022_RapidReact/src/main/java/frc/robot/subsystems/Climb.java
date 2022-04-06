@@ -19,7 +19,7 @@ public class Climb extends SubsystemBase {
     climbMotor.restoreFactoryDefaults();
 
     climbMotor.setIdleMode(IdleMode.kBrake);
-    //climbMotor.setSmartCurrentLimit(25, 25, 0);
+    // climbMotor.setSmartCurrentLimit(25, 25, 0);
   
   }
 
