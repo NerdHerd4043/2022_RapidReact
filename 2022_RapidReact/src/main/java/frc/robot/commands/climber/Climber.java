@@ -4,8 +4,6 @@
 
 package frc.robot.commands.climber;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climb;
 
@@ -17,10 +15,10 @@ public class Climber extends CommandBase {
   public Climber(Climb climb, double speed) {
     this.climb = climb;
     this.speed = speed;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climb);  
   }
-
 
   // Called when the command is initially scheduled.
   @Override
