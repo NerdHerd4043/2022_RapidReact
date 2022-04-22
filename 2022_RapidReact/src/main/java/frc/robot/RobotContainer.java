@@ -20,6 +20,7 @@ import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.climber.Climber;
+import frc.robot.commands.climber.ToggleLock;
 import frc.robot.commands.intake.*;
 import frc.robot.commands.ejector.*;
 import frc.robot.commands.elevator.*;
@@ -44,13 +45,15 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   public static final Intake intake = new Intake();
   private final Ejector shoot = new Ejector();
-  private final Climb climb = new Climb();
+  public final Climb climb = new Climb();
   
   private final DriveForward driveForward = new DriveForward(drivebase);
   private final DriveForwardWithWait waitThenForward = new DriveForwardWithWait(drivebase, 0);
   private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
   private final TwoBallAuto twoBallAuto = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
   private final TwoBallWallAuto twoBallWallAuto = new TwoBallWallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+
+  public Double startPosition = climb.getEncoderValue();
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
 
@@ -112,7 +115,7 @@ public class RobotContainer {
     // Button.kRightBumper.value).toggleWhenPressed(new Harvest(intake, -.5, -.5),
     // true); 
     new JoystickButton(driveStick, Button.kA.value).whenPressed(new HarvestDown(intake), true);
-    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 0.9, 0.9), true);
+    new JoystickButton(driveStick, Button.kA.value).whenPressed(new Harvest(intake, 0.7, 0.9), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new HarvestUp(intake), true);
     new JoystickButton(driveStick, Button.kB.value).whenPressed(new Harvest(intake, 0, 0), true);
     new JoystickButton(driveStick, Button.kX.value).whenHeld(new Shoot(shoot, elevator, 1, 0.65), true);
@@ -122,9 +125,10 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
-    new POVButton(driveStick, 0).whenPressed(new Climber(climb, ClimbConstants.speed));
-    new POVButton(driveStick, 180).whenPressed(new Climber(climb, -ClimbConstants.speed));
-    // new JoystickButton(driveStick, Button.kStart.value).whenReleased(new Harvest(intake, .5, .5), true);
+    new POVButton(driveStick, 0).whenHeld(new Climber(climb, ClimbConstants.speed, false));
+    new POVButton(driveStick, 180).whenHeld(new Climber(climb, -ClimbConstants.speed, false));
+    new POVButton(driveStick, 90).whenPressed(new ToggleLock());
+    new POVButton(driveStick, 270).whenPressed(new Climber(climb, 0, true));
 
   }
 

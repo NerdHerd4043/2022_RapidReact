@@ -20,9 +20,10 @@ public final class Constants {
         public static final int backRightMotorID = 3;
 
         public static final double highGearRamp = 0.2;
-        public static final double lowGearRamp = 0.2;
+        public static final double lowGearRamp = 0.1;
 
-        public static final int currentLimit = 40;
+        public static final int stallLimit = 80; //current limit when motors are stopped
+        public static final int freeLimit = 80; //max current limit
 
         public static final int shifterID = 1;
 
@@ -45,9 +46,12 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int harvesterMotorID = 13;
+        public static final int miniHarvestMotorID = 15;
         public static final int kickupMotorID = 11;
         
         public static final int intakePistonID = 2;
+
+        public static boolean harvestUp = true;
     }
 
     public static final class EjectorConstants {
@@ -61,9 +65,12 @@ public final class Constants {
         public static final String waitInput = "Auto Wait Time";
         public static final String gearMode = "Gear Mode";
         public static final String drivetrainDirection = "Drivetrain Direction";
+        public static final String climberLock = "Climber Lock On";
     }
     public static final class ClimbConstants {
         public static final int climbMotorID = 14;
-        public static final double speed = 0.3;
+        public static final double speed = 1;
+        public static boolean firstEncoderCheck = true;
+        public static boolean climberLock = true;
     }
 }

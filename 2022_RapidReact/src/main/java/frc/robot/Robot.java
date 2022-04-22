@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.DashboardStrings;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.intake.HarvestUp;
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     System.out.println("Lifting Harvester!!!!!");
     new HarvestUp(RobotContainer.intake);
+    ClimbConstants.firstEncoderCheck = true;
+    ClimbConstants.climberLock = true;
   }
 
   @Override
@@ -88,11 +91,15 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_robotContainer.startPosition = m_robotContainer.climb.getEncoderValue();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    System.out.println(m_robotContainer.startPosition + " : " + (m_robotContainer.climb.getEncoderValue() - m_robotContainer.startPosition));
+  }
 
   @Override
   public void testInit() {

@@ -5,16 +5,25 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Climb;
 
 public class Climber extends CommandBase {
   public final Climb climb;
   public final double speed;
+  public double startPosition;
+  public boolean resetButton;
+  // private final double startPosition;
 
   /** Creates a new climber. */
-  public Climber(Climb climb, double speed) {
+  public Climber(Climb climb, double speed, boolean resetButton /*, Double startPosition*/) {
     this.climb = climb;
     this.speed = speed;
+
+    this.resetButton = resetButton;
+    // this.startPosition = startPosition;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climb);  
@@ -22,12 +31,25 @@ public class Climber extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(ClimbConstants.firstEncoderCheck || resetButton)
+    {
+      startPosition = climb.getEncoderValue();
+      ClimbConstants.firstEncoderCheck = false;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climb.moveClimb(speed);
+    if((speed > 0.05 && !ClimbConstants.climberLock) || 
+    (/*climb.getEncoderValue() - startPosition >= -160 &&*/ speed < -0.05)){ 
+      climb.moveClimb(speed);
+    }
+    else{
+      climb.stopClimb();
+    }
+    //one rotation  is 1.732 inches
   }
 
   // Called once the command ends or is interrupted.
