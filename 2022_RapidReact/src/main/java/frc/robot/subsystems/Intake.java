@@ -31,19 +31,22 @@ public class Intake extends SubsystemBase
 
     harvesterMotor.setOpenLoopRampRate(0.5f);
 
-    miniHarvestMotor.follow(kickupMotor);
+    kickupMotor.setInverted(true);
+
   }
 
   public void spinIntake(double hSpeed, double kSpeed)
   {
     harvesterMotor.set(hSpeed);
     kickupMotor.set(kSpeed);
+    miniHarvestMotor.set(kSpeed);
   }
 
   public void stopIntake()
   {
     harvesterMotor.stopMotor();
     kickupMotor.stopMotor();
+    miniHarvestMotor.stopMotor();
   }
 
   public void setIntakePiston(boolean z){

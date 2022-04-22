@@ -8,12 +8,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class Climb extends SubsystemBase {
   private CANSparkMax climbMotor = new CANSparkMax (ClimbConstants.climbMotorID, MotorType.kBrushless);
-  
+  DigitalInput climbSwitch = new DigitalInput(1);
+
   /** Creates a new Climb. */
   public Climb() {
     climbMotor.restoreFactoryDefaults();
@@ -29,7 +31,12 @@ public class Climb extends SubsystemBase {
   }
 
   public void moveClimb(double speed){
-    climbMotor.set(speed);
+    if(!climbSwitch.get() && speed < -0.05){
+      climbMotor.stopMotor();
+    }
+    else{
+      climbMotor.set(speed);
+    }
   }
 
   public void stopClimb() {

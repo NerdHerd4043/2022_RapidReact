@@ -22,8 +22,8 @@ public final class Constants {
         public static final double highGearRamp = 0.2;
         public static final double lowGearRamp = 0.1;
 
-        public static final int stallLimit = 25; //current limit when motors are stopped
-        public static final int freeLimit = 40; //max current limit
+        public static final int stallLimit = 80; //current limit when motors are stopped
+        public static final int freeLimit = 80; //max current limit
 
         public static final int shifterID = 1;
 
@@ -50,6 +50,8 @@ public final class Constants {
         public static final int kickupMotorID = 11;
         
         public static final int intakePistonID = 2;
+
+        public static boolean harvestUp = true;
     }
 
     public static final class EjectorConstants {

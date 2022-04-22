@@ -125,9 +125,10 @@ public class RobotContainer {
     
     new JoystickButton(driveStick, Button.kBack.value).whenPressed(new Harvest(intake, 0, 1), true);
     new JoystickButton(driveStick, Button.kStart.value).whenHeld(new Harvest(intake, -.5, -.5), true);
-    new POVButton(driveStick, 0).whenHeld(new Climber(climb, ClimbConstants.speed));
-    new POVButton(driveStick, 180).whenHeld(new Climber(climb, -ClimbConstants.speed));
+    new POVButton(driveStick, 0).whenHeld(new Climber(climb, ClimbConstants.speed, false));
+    new POVButton(driveStick, 180).whenHeld(new Climber(climb, -ClimbConstants.speed, false));
     new POVButton(driveStick, 90).whenPressed(new ToggleLock());
+    new POVButton(driveStick, 270).whenPressed(new Climber(climb, 0, true));
 
   }
 
