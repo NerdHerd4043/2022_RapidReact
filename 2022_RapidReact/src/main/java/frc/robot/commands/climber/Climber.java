@@ -20,13 +20,14 @@ public class Climber extends CommandBase {
   public Climber(Climb climb, double speed, boolean resetButton /*, Double startPosition*/) {
     this.climb = climb;
     this.speed = speed;
+
     this.resetButton = resetButton;
     // this.startPosition = startPosition;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climb);  
   }
-
 
   // Called when the command is initially scheduled.
   @Override
