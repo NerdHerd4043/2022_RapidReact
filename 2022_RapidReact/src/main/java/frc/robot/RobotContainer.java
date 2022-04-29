@@ -4,11 +4,20 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+
 import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cscore.CvSink;
 // import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 // import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -27,6 +36,7 @@ import frc.robot.commands.elevator.*;
 import frc.robot.commands.drivebase.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -52,7 +62,30 @@ public class RobotContainer {
   private final OneBallAuto oneBallAuto = new OneBallAuto(drivebase, elevator, shoot, RobotConstants.elevatorWaitTime);
   private final TwoBallAuto twoBallAuto = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
   private final TwoBallWallAuto twoBallWallAuto = new TwoBallWallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
+  // private final TestTrajectory testTrajectory = new TestTrajectory(drivebase);
+//-------------------------------------------------------------------------------------------------------------------------
+  // TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
+  // config.setKinematics(drivebase.getKinematics());
 
+  // Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+  //   Arrays.asList(new Pose2d(), new Pose2d(1.0, 0, new Rotation2d())), //starts at 0, drives forward 1 meter at 0 degrees
+  //   config
+  // );
+
+  // RamseteCommand command = new RamseteCommand(
+  //   trajectory,
+  //   drivebase::getPose,
+  //   new RamseteController(2.0, 0.7),
+  //   drivebase.getFeedforward(),
+  //   drivebase.getKinematics(),
+  //   drivebase::getSpeeds,
+  //   drivebase.getLeftPIDController(),
+  //   drivebase.getRightPIDController(),
+  //   drivebase::setOutput,
+  //   drivebase
+  // );
+
+//------------------------------------------------------------------------------------------------------------------------
   public Double startPosition = climb.getEncoderValue();
 
   SendableChooser<Command> commandChooser = new SendableChooser<>();
@@ -76,6 +109,7 @@ public class RobotContainer {
     commandChooser.addOption("1 Ball Auto", oneBallAuto);
     commandChooser.setDefaultOption("2 Ball Auto", twoBallAuto); 
     commandChooser.addOption("2 Ball Wall Auto", twoBallWallAuto); 
+    // commandChooser.addOption("Follows a set path?", command);
 
     SmartDashboard.putData(commandChooser);
     
@@ -140,7 +174,32 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
+
+    TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
+    config.setKinematics(drivebase.getKinematics());
+
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      Arrays.asList(new Pose2d(), new Pose2d(1.0, 0, new Rotation2d())), //starts at 0, drives forward 1 meter at 0 degrees
+      config
+    );
+
+    RamseteCommand pathTracer = new RamseteCommand(
+      trajectory,
+      drivebase::getPose,
+      new RamseteController(2.0, 0.7),
+      drivebase.getFeedforward(),
+      drivebase.getKinematics(),
+      drivebase::getSpeeds,
+      drivebase.getLeftPIDController(),
+      drivebase.getRightPIDController(),
+      drivebase::setOutput,
+      drivebase
+    );
+
+    commandChooser.addOption("aaaaahhh", pathTracer);
+
     return commandChooser.getSelected();
+    
   }
 
 
