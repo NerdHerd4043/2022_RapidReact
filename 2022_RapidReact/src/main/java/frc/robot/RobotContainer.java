@@ -196,10 +196,10 @@ public class RobotContainer {
       drivebase
     );
 
-    commandChooser.addOption("aaaaahhh", pathTracer);
+    // commandChooser.addOption("aaaaahhh", pathTracer);
 
-    return commandChooser.getSelected();
-    
+    // return commandChooser.getSelected();
+    return pathTracer;
   }
 
 
