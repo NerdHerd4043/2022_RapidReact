@@ -45,7 +45,7 @@ public class DriveForward extends CommandBase {
   public boolean isFinished() {
     /*~14 per foot <--- not true
     42 ticks per revolution?
-    low gear is 24:1?
+    low gear is 24:1?             pain
     high gear is 9.4:1?
     circumfrence of wheel is about 9.8175*/
     return drivebase.getAverageEncoderValue() - encoderStart > (14 * 8);
