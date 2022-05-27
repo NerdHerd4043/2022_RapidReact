@@ -49,9 +49,9 @@ public class Drivebase extends SubsystemBase {
 
   Pose2d pose;
 
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, 0.243); //current values are placeholders and need to be changed
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, 0.243); //current values are placeholders for kS,kV,kA and need to be changed
   
-  PIDController leftPIDController = new PIDController(9.95, 0, 0); //9.95 is a placeholder and needs to be changed
+  PIDController leftPIDController = new PIDController(9.95, 0, 0); //9.95 is a placeholder for kP and needs to be changed
   PIDController rightPIDController = new PIDController(9.95, 0, 0);
 
   /** Creates a new Drivebase. */
