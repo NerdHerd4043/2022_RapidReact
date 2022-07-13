@@ -22,10 +22,12 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DashboardStrings;
@@ -33,26 +35,46 @@ import frc.robot.Constants.DriveConstants;
 
 
 public class Drivebase extends SubsystemBase {
-  private DifferentialDrive diffDrive;
+  // private DifferentialDrive diffDrive;
 
   private CANSparkMax frontLeftMotor = new CANSparkMax(DriveConstants.frontLeftMotorID, MotorType.kBrushless);
   private CANSparkMax frontRightMotor = new CANSparkMax(DriveConstants.frontRightMotorID, MotorType.kBrushless);
   private CANSparkMax backLeftMotor = new CANSparkMax(DriveConstants.backLeftMotorID, MotorType.kBrushless);
   private CANSparkMax backRightMotor = new CANSparkMax(DriveConstants.backRightMotorID, MotorType.kBrushless);
+
+  private final MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
+  private final MotorControllerGroup rightMotors = new MotorControllerGroup(frontRightMotor, backRightMotor);
   
   private Solenoid shifter = new Solenoid(PneumaticsModuleType.CTREPCM, DriveConstants.shifterID);
 
-  AHRS gyro = new AHRS(SPI.Port.kMXP); //port may need to be changed when gyro is added
+  AHRS gyro = new AHRS(SPI.Port.kMXP); 
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(0.63); //0.63 is the track width in meters
-  DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  private DifferentialDrive diffDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-  Pose2d pose;
+  public final DifferentialDriveOdometry odometry;
 
-  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.268, 1.89, 0.243); //current values are placeholders for kS,kV,kA and need to be changed
+  private final Encoder leftEncoder = new Encoder(
+    DriveConstants.leftEncoderPorts[0],
+    DriveConstants.leftEncoderPorts[1],
+    DriveConstants.leftEncoderReversed);
+
+  private final Encoder rightEncoder = new Encoder(
+    DriveConstants.rightEncoderPorts[0],
+    DriveConstants.rightEncoderPorts[1],
+    DriveConstants.rightEncoderReversed);
+
+  // DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.AutoTrajectory.trackWidth); //0.63 is the track width in meters
+  // DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+
+  // Pose2d pose;
+
+  // SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward
+  // (DriveConstants.AutoTrajectory.kS, 
+  // DriveConstants.AutoTrajectory.kV, 
+  // DriveConstants.AutoTrajectory.kA);
   
-  PIDController leftPIDController = new PIDController(9.95, 0, 0); //9.95 is a placeholder for kP and needs to be changed
-  PIDController rightPIDController = new PIDController(9.95, 0, 0);
+  // PIDController leftPIDController = new PIDController(DriveConstants.AutoTrajectory.kP, 0, 0);
+  // PIDController rightPIDController = new PIDController(DriveConstants.AutoTrajectory.kP, 0, 0);
 
   /** Creates a new Drivebase. */
   public Drivebase() {
@@ -66,8 +88,8 @@ public class Drivebase extends SubsystemBase {
     //frontLeftMotor.setIdleMode(IdleMode.kCoast);
     //frontRightMotor.setIdleMode(IdleMode.kCoast);
    
-    frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
-    frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    // frontLeftMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);
+    // frontRightMotor.setOpenLoopRampRate(DriveConstants.highGearRamp);   //uncomment later
 
     backLeftMotor.follow(frontLeftMotor);
     backRightMotor.follow(frontRightMotor);
@@ -75,13 +97,22 @@ public class Drivebase extends SubsystemBase {
     // backLeftMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
     // frontRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
     // backRightMotor.setSmartCurrentLimit(DriveConstants.currentLimit);
-    frontLeftMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
-    backLeftMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
-    frontRightMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
-    backRightMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
+
+    // frontLeftMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);  uncomment later
+    // backLeftMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
+    // frontRightMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
+    // backRightMotor.setSmartCurrentLimit(DriveConstants.stallLimit, DriveConstants.freeLimit);
     frontRightMotor.setInverted(true);
 
-    diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+    leftEncoder.setDistancePerPulse(DriveConstants.encoderDistancePerPulse);
+    rightEncoder.setDistancePerPulse(DriveConstants.encoderDistancePerPulse);
+    resetEncoders();
+
+    odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+
+    zeroHeading();
+
+    // diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
     // putWaitInput();
 
   }
@@ -118,49 +149,106 @@ public class Drivebase extends SubsystemBase {
     return SmartDashboard.getNumber(DashboardStrings.waitInput, 2);
   }
 
-  public Rotation2d getHeading(){
-    return Rotation2d.fromDegrees(-gyro.getAngle());
+  public Pose2d getPose(){
+    return odometry.getPoseMeters();
   }
 
-  public DifferentialDriveWheelSpeeds getSpeeds() {
-      return new DifferentialDriveWheelSpeeds(
-        frontRightMotor.getEncoder().getVelocity() / 24 * Math.PI * Units.inchesToMeters(6.0) / 60,
-        frontLeftMotor.getEncoder().getVelocity() / 24 * Math.PI * Units.inchesToMeters(6.0) / 60
-        //24 is the gear ratio, 6 is the wheel diameter
-      );
+  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
   }
 
-  public SimpleMotorFeedforward getFeedforward() {
-    return feedforward;
+  public void resetOdometry(Pose2d pose){
+    resetEncoders();
+    odometry.resetPosition(pose, gyro.getRotation2d());
   }
 
-  public PIDController getLeftPIDController() {
-    return leftPIDController;
+  public void tankDriveVolts(double leftVolts, double rightVolts){
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+    diffDrive.feed();
   }
 
-  public PIDController getRightPIDController() {
-    return rightPIDController;
+  public void resetEncoders(){
+    leftEncoder.reset();
+    rightEncoder.reset();
   }
 
-  public DifferentialDriveKinematics getKinematics() {
-    return kinematics;
+  public double getAverageEncoderDistance(){
+    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
   }
 
-  public Pose2d getPose() {
-    return pose;
+  public Encoder getLeftEncoder(){
+    return leftEncoder;
   }
 
-  public void setOutput(double leftVolts, double rightVolts){
-    frontLeftMotor.set(leftVolts / 12);
-    frontRightMotor.set(rightVolts / 12);
+  public Encoder getRightEncoder(){
+    return rightEncoder;
   }
+
+  public void setMaxOutput(double maxOutput){
+    diffDrive.setMaxOutput(maxOutput);
+  }
+
+  public void zeroHeading(){
+    gyro.reset();
+  }
+
+  public double getHeading(){
+    return gyro.getRotation2d().getDegrees();
+  }
+
+  public double getTurnRate(){
+    return -gyro.getRate();
+  }
+
+//---------------------------------------------------------------------------------------------------------------------
+  // public Rotation2d getHeading(){
+  //   return Rotation2d.fromDegrees(-gyro.getAngle());
+  // }
+
+  // public DifferentialDriveWheelSpeeds getSpeeds() {
+  //     return new DifferentialDriveWheelSpeeds(
+  //       frontRightMotor.getEncoder().getVelocity() / DriveConstants.AutoTrajectory.gearRatio * Math.PI * Units.inchesToMeters(DriveConstants.AutoTrajectory.wheelDiameter) / 60,
+  //       frontLeftMotor.getEncoder().getVelocity() / DriveConstants.AutoTrajectory.gearRatio * Math.PI * Units.inchesToMeters(DriveConstants.AutoTrajectory.wheelDiameter) / 60
+  //     );
+  // }
+
+  // public SimpleMotorFeedforward getFeedforward() {
+  //   return feedforward;
+  // }
+
+  // public PIDController getLeftPIDController() {
+  //   return leftPIDController;
+  // }
+
+  // public PIDController getRightPIDController() {
+  //   return rightPIDController;
+  // }
+
+  // public DifferentialDriveKinematics getKinematics() {
+  //   return kinematics;
+  // }
+
+  // public Pose2d getPose() {
+  //   return pose;
+  // }
+
+  // public void setOutput(double leftVolts, double rightVolts){
+  //   frontLeftMotor.set(leftVolts / 12);
+  //   frontRightMotor.set(rightVolts / 12);
+  // }
+//-----------------------------------------------------------------------------------------------------------
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    pose = odometry.update(getHeading(),         
-    frontRightMotor.getEncoder().getVelocity() / 24 * Math.PI * Units.inchesToMeters(6.0) / 60,
-    frontLeftMotor.getEncoder().getVelocity() / 24 * Math.PI * Units.inchesToMeters(6.0) / 60);
+    // pose = odometry.update(getHeading(),
+    // frontRightMotor.getEncoder().getVelocity() / DriveConstants.AutoTrajectory.gearRatio * Math.PI * Units.inchesToMeters(DriveConstants.AutoTrajectory.wheelDiameter) / 60,
+    // frontLeftMotor.getEncoder().getVelocity() / DriveConstants.AutoTrajectory.gearRatio * Math.PI * Units.inchesToMeters(DriveConstants.AutoTrajectory.wheelDiameter) / 60
+    // );
     //come back to this, don't know if these parameters are right
+
+    odometry.update(gyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance()); 
+    // System.out.println(gyro.getRotation2d() + ", " + getHeading() + ", " + getTurnRate());   
   }
 }

@@ -5,18 +5,23 @@
 package frc.robot;
 
 import java.util.Arrays;
+import java.util.List;
 
 import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cscore.CvSink;
 // import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
 // import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -63,6 +68,7 @@ public class RobotContainer {
   private final TwoBallAuto twoBallAuto = new TwoBallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
   private final TwoBallWallAuto twoBallWallAuto = new TwoBallWallAuto(drivebase, elevator, shoot, intake, RobotConstants.elevatorWaitTime);
   // private final TestTrajectory testTrajectory = new TestTrajectory(drivebase);
+  
 //-------------------------------------------------------------------------------------------------------------------------
   // TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
   // config.setKinematics(drivebase.getKinematics());
@@ -175,31 +181,48 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
 
-    TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2), Units.feetToMeters(2));
-    config.setKinematics(drivebase.getKinematics());
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+      new SimpleMotorFeedforward(
+        DriveConstants.AutoTrajectory.kS, 
+        DriveConstants.AutoTrajectory.kV,
+        DriveConstants.AutoTrajectory.kA), 
+        DriveConstants.AutoTrajectory.kinematics, 
+        10);
 
+    TrajectoryConfig config = new TrajectoryConfig(
+      DriveConstants.AutoTrajectory.maxSpeed, 
+      DriveConstants.AutoTrajectory.maxAcceleration)
+      .setKinematics(DriveConstants.AutoTrajectory.kinematics)
+      .addConstraint(autoVoltageConstraint);
+    
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(), new Pose2d(1.0, 0, new Rotation2d())), //starts at 0, drives forward 1 meter at 0 degrees
-      config
-    );
+      new Pose2d(0, 0, new Rotation2d(0)), //starting point 
+      List.of(new Translation2d(0.25, 0)), //pass through this point
+      new Pose2d(0.5, 0, new Rotation2d(0)), //end at 1 meters facing forwards 
+      config);
 
-    RamseteCommand pathTracer = new RamseteCommand(
-      trajectory,
-      drivebase::getPose,
-      new RamseteController(2.0, 0.7),
-      drivebase.getFeedforward(),
-      drivebase.getKinematics(),
-      drivebase::getSpeeds,
-      drivebase.getLeftPIDController(),
-      drivebase.getRightPIDController(),
-      drivebase::setOutput,
-      drivebase
-    );
+    RamseteCommand ramseteCommand = new RamseteCommand(
+      trajectory, 
+      drivebase::getPose, 
+      new RamseteController(DriveConstants.AutoTrajectory.ramseteB, DriveConstants.AutoTrajectory.ramseteZeta), 
+      new SimpleMotorFeedforward(
+        DriveConstants.AutoTrajectory.kS, 
+        DriveConstants.AutoTrajectory.kV,
+        DriveConstants.AutoTrajectory.kA), 
+      DriveConstants.AutoTrajectory.kinematics, 
+      drivebase::getWheelSpeeds, 
+      new PIDController(DriveConstants.AutoTrajectory.kP, 0, 0), 
+      new PIDController(DriveConstants.AutoTrajectory.kP, 0, 0), 
+      drivebase::tankDriveVolts, 
+      drivebase);
+
+    drivebase.resetOdometry(trajectory.getInitialPose());
+
+    return ramseteCommand.andThen(() -> drivebase.tankDriveVolts(0, 0));
 
     // commandChooser.addOption("aaaaahhh", pathTracer);
 
     // return commandChooser.getSelected();
-    return pathTracer;
   }
 
 

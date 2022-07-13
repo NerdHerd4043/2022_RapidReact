@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -19,6 +22,16 @@ public final class Constants {
         public static final int backLeftMotorID = 6;
         public static final int backRightMotorID = 3;
 
+        public static final int[] leftEncoderPorts = new int[] {10, 6};
+        public static final int[] rightEncoderPorts = new int[] {8, 3};
+
+        public static final boolean leftEncoderReversed = false;
+        public static final boolean rightEncoderReversed = true;
+
+        public static final int encoderCPR = 1; //according to sysId, rev already handles the encoder value
+        public static final double wheelDiameter = 6; //in inches
+        public static final double encoderDistancePerPulse = (Units.inchesToMeters(wheelDiameter) * Math.PI) / (double) encoderCPR;
+
         public static final double highGearRamp = 0.2;
         public static final double lowGearRamp = 0.1;
 
@@ -33,6 +46,23 @@ public final class Constants {
             public static final boolean highGear = true;
             public static final boolean lowGear = false;
             public static boolean isHighGear = true;
+        }
+
+        public static final class AutoTrajectory {
+            public static final double gearRatio = 24; //24:1
+            public static final double trackWidth = 0.63; //in meters
+            public static final double kS = -0.038805;
+            public static final double kV = 6.0223;
+            public static final double kA = 5.8034;
+            public static final double kP = 5.3654;
+
+            public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(trackWidth);
+
+            public static final double maxSpeed = 0.25; //meters per second
+            public static final double maxAcceleration = 0.25; //meters per second squared
+
+            public static final double ramseteB = 2;  //these two numbers work for most robots (supposedly)
+            public static final double ramseteZeta = 0.7; //i don't know what they mean
         }
     }
 
