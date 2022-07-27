@@ -51,8 +51,8 @@ public final class Constants {
         public static final class AutoTrajectory {
             public static final double gearRatio = 24; //24:1
             public static final double trackWidth = 0.63; //in meters
-            public static final double kS = -0.038805;
-            public static final double kV = 6.0223;
+            public static final double kS = -0.038805; //These 4 numbers might be different since i recalibrated the gyro, 
+            public static final double kV = 6.0223;    //but I dont have room to run the SysId again
             public static final double kA = 5.8034;
             public static final double kP = 5.3654;
 
