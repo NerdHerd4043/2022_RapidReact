@@ -198,7 +198,7 @@ public class RobotContainer {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)), //starting point 
       List.of(new Translation2d(0.25, 0)), //pass through this point
-      new Pose2d(0.5, 0, new Rotation2d(0)), //end at 1 meters facing forwards 
+      new Pose2d(0.5, 0, new Rotation2d(0)), //end at 0.5 meters facing forwards 
       config);
 
     RamseteCommand ramseteCommand = new RamseteCommand(
@@ -227,5 +227,3 @@ public class RobotContainer {
 
 
 }
-
-// hi
