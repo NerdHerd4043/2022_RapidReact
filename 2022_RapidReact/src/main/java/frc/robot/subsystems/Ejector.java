@@ -4,16 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EjectorConstants;
 
 public class Ejector extends SubsystemBase {
-  private PWMTalonSRX ejectorMotorL = new PWMTalonSRX(EjectorConstants.ejectorMotorRID);
-  private PWMTalonSRX ejectorMotorR = new PWMTalonSRX(EjectorConstants.ejectorMotorLID);
+  private WPI_TalonSRX ejectorMotorL = new WPI_TalonSRX(EjectorConstants.ejectorMotorRID);
+  private WPI_TalonSRX ejectorMotorR = new WPI_TalonSRX(EjectorConstants.ejectorMotorLID);
   /** Creates a new Intake. */
   public Ejector() {
     // ejectorMotorL.follow(ejectorMotorR, true);

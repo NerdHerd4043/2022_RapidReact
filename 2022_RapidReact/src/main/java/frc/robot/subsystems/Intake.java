@@ -26,8 +26,12 @@ public class Intake extends SubsystemBase
   public Intake() 
   {
     kickupMotor.restoreFactoryDefaults();
+    harvesterMotor.restoreFactoryDefaults();
+    miniHarvester.restoreFactoryDefaults();
 
     kickupMotor.setIdleMode(IdleMode.kBrake);
+    harvesterMotor.setIdleMode(IdleMode.kBrake);
+    miniHarvester.setIdleMode(IdleMode.kBrake);
 
     harvesterMotor.setOpenLoopRampRate(0.5f);
   }
@@ -36,7 +40,7 @@ public class Intake extends SubsystemBase
   {
     harvesterMotor.set(hSpeed);
     kickupMotor.set(-kSpeed);
-    miniHarvester.set(-kSpeed);
+    miniHarvester.set(kSpeed);
   }
 
   public void stopIntake()
