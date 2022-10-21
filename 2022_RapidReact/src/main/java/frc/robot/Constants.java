@@ -54,7 +54,7 @@ public final class Constants {
     public static final class EjectorConstants {
         public static final int ejectorMotorRID = 9;
         public static final int ejectorMotorLID = 5;
-        public static final double speed = -0.3;
+        public static final double speed = -1;
 
     }
 
