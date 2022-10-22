@@ -28,6 +28,12 @@ public final class Constants {
 
         public static boolean harvesterIsFront = true;
 
+        public static final int[] leftEncoderPorts = new int[] {10, 6};
+        public static final int[] rightEncoderPorts = new int[] {8, 3};
+
+        public static final boolean leftEncoderReversed = false;
+        public static final boolean rightEncoderReversed = true;
+
         public static final class Gears {
             public static final boolean highGear = true;
             public static final boolean lowGear = false;
@@ -41,6 +47,19 @@ public final class Constants {
     }
     public static final class ElevatorConstants {
         public static final int beltMotorID = 15;
+    }
+
+    public static final class TrajectoryConstants {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kA = 0;
+
+        public static final double b = 2;
+        public static final double zeta = 0.7;
     }
 
     public static final class IntakeConstants {
